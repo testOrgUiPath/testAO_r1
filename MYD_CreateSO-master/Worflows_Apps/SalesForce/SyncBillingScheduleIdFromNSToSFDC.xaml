@@ -1,0 +1,1152 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="SyncBillingScheduleIdFromNSToSFDC" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:n="clr-namespace:NetsuiteActivities;assembly=NetsuiteActivities" xmlns:nn="clr-namespace:NetsuiteActivities.NetsuiteService;assembly=NetsuiteActivities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ss="clr-namespace:System.Security;assembly=mscorlib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:usa="clr-namespace:UiPath.Salesforce.Activities;assembly=UiPath.Salesforce.Activities" xmlns:usam="clr-namespace:UiPath.Salesforce.Activities.Models;assembly=UiPath.Salesforce.Activities" xmlns:usawm="clr-namespace:UiPath.Salesforce.Activities.Wizards.Models;assembly=UiPath.Salesforce.Activities.Wizards" xmlns:usc="clr-namespace:UiPath.Salesforce.ConnectionService;assembly=UiPath.Salesforce" xmlns:usm="clr-namespace:UiPath.Salesforce.Models;assembly=UiPath.Salesforce" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_NetsuiteHeaderCredentials" Type="InArgument(n:HeaderCredentials)" />
+    <x:Property Name="in_SFDCConsumerKey" Type="InArgument(x:String)" />
+    <x:Property Name="in_SFDCConsumerSecret" Type="InArgument(x:String)" />
+    <x:Property Name="in_SFDCUsername" Type="InArgument(x:String)" />
+    <x:Property Name="in_SFDCPassword" Type="InArgument(x:String)" />
+    <x:Property Name="in_SFDCSecurityToken" Type="InArgument(x:String)" />
+    <x:Property Name="in_NS_SO_InternalId" Type="InArgument(x:String)" />
+    <x:Property Name="in_OrderId" Type="InArgument(x:String)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>1109.6,1920</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>SyncBillingScheduleIdFromNSToSFDC_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="33">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>NetsuiteActivities</x:String>
+      <x:String>System.Activities.DynamicUpdate</x:String>
+      <x:String>UiPathTeam.Salesforce.ExtensionPackage</x:String>
+      <x:String>NetsuiteActivities.NetsuiteService</x:String>
+      <x:String>UiPath.Salesforce.Activities.Models</x:String>
+      <x:String>UiPath.Salesforce.Activities</x:String>
+      <x:String>System.Net</x:String>
+      <x:String>System.ComponentModel</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Runtime.InteropServices</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="50">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>NetsuiteActivities</AssemblyReference>
+      <AssemblyReference>UiPathTeam.Salesforce.Activities.ExtensionPackage</AssemblyReference>
+      <AssemblyReference>UiPath.Salesforce.Activities</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.CV</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="SyncBillingScheduleIdFromNSToSFDC" sap:VirtualizedContainerService.HintSize="627.2,1855.2" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:Boolean" Name="isRecFound" />
+      <Variable x:TypeArguments="x:Boolean" Name="isBillSchedPopulated" />
+      <Variable x:TypeArguments="x:String" Name="BillSchedInternalId" />
+      <Variable x:TypeArguments="s:DateTime" Name="now" />
+      <Variable x:TypeArguments="nn:SalesOrderItem[]" Name="soItems" />
+      <Variable x:TypeArguments="nn:SalesOrder" Name="so" />
+      <Variable x:TypeArguments="nn:CustomFieldRef[]" Name="itemCustomFieldList" />
+      <Variable x:TypeArguments="x:String" Name="sfdcProductId" />
+      <Variable x:TypeArguments="nn:StringCustomFieldRef" Name="stringCustomField" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <n:getSalesOrder AccountName="{x:Null}" ConsumerKey="{x:Null}" ConsumerSecret="{x:Null}" IsProduction="{x:Null}" TokenID="{x:Null}" TokenSecret="{x:Null}" BillingScheduleInternalId="[BillSchedInternalId]" CheckBillingSchedule="True" DisplayName="Get sales order by in_NS_SO_InternalId" HeaderCredentials="[in_NetsuiteHeaderCredentials]" sap:VirtualizedContainerService.HintSize="585.6,22.4" sap2010:WorkflowViewState.IdRef="getSalesOrder_2" InternalID="[in_NS_SO_InternalId]" IsBillingSchedulePopulated="[isBillSchedPopulated]" IsRecordFound="[isRecFound]" SalesOrder="[so]" />
+    <Assign DisplayName="Assign - Date time now" sap:VirtualizedContainerService.HintSize="585.6,60" sap2010:WorkflowViewState.IdRef="Assign_1">
+      <Assign.To>
+        <OutArgument x:TypeArguments="s:DateTime">[now]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="s:DateTime">[DateTime.Now]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="Assign - Initialize BillSchedInternalId" sap:VirtualizedContainerService.HintSize="585.6,60" sap2010:WorkflowViewState.IdRef="Assign_26">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[BillSchedInternalId]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">
+          <Literal x:TypeArguments="x:String" Value="" />
+        </InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:InterruptibleDoWhile Condition="[(BillSchedInternalId.Equals(&quot;&quot;) or BillSchedInternalId.Equals(&quot;10&quot;)  or not so.status.ToLower.Contains(&quot;pending billing&quot;)) and now.AddMinutes(5) &gt; DateTime.Now]" DisplayName="Do While - Delay to Get Sales Order" sap:VirtualizedContainerService.HintSize="585.6,22.4" sap2010:WorkflowViewState.IdRef="InterruptibleDoWhile_1">
+      <ui:InterruptibleDoWhile.Body>
+        <Sequence DisplayName="Body - Do While - Delay to Get Sales Order" sap:VirtualizedContainerService.HintSize="375.2,310.4" sap2010:WorkflowViewState.IdRef="Sequence_28">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:LogMessage DisplayName="Log Message - Wait 15 s" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Trace" Message="[&quot;waiting for 15 seconds&quot;]" />
+          <Delay DisplayName="Delay - 15s" Duration="00:00:15" sap:VirtualizedContainerService.HintSize="333.6,22.4" sap2010:WorkflowViewState.IdRef="Delay_1" />
+          <n:getSalesOrder AccountName="{x:Null}" ConsumerKey="{x:Null}" ConsumerSecret="{x:Null}" IsProduction="{x:Null}" TokenID="{x:Null}" TokenSecret="{x:Null}" BillingScheduleInternalId="[BillSchedInternalId]" CheckBillingSchedule="True" DisplayName="Get sales order - Check If Created?" HeaderCredentials="[in_NetsuiteHeaderCredentials]" sap:VirtualizedContainerService.HintSize="333.6,22.4" sap2010:WorkflowViewState.IdRef="getSalesOrder_3" InternalID="[in_NS_SO_InternalId]" IsBillingSchedulePopulated="[isBillSchedPopulated]" IsRecordFound="[isRecFound]" SalesOrder="[so]" />
+        </Sequence>
+      </ui:InterruptibleDoWhile.Body>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ui:InterruptibleDoWhile>
+    <usa:SalesforceApplicationScope CustomServer="{x:Null}" ExistingConnectionService="{x:Null}" Port="{x:Null}" ProxyPassword="{x:Null}" ProxyServer="{x:Null}" ProxyUser="{x:Null}" SalesforceConnection="{x:Null}" ConsumerKey="[in_SFDCConsumerKey]" ConsumerSecret="[(new System.Net.NetworkCredential(&quot;&quot;, in_SFDCConsumerSecret)).SecurePassword]" DisplayName="Salesforce Application Scope - Update" sap:VirtualizedContainerService.HintSize="585.6,1437.6" sap2010:WorkflowViewState.IdRef="SalesforceApplicationScope_1" Password="[(new System.Net.NetworkCredential(&quot;&quot;, in_SFDCPassword)).SecurePassword]" ReportApiErrorAsException="False" SecurityToken="[(new System.Net.NetworkCredential(&quot;&quot;, in_SFDCSecurityToken)).SecurePassword]" ServerType="Test" TelemetryEnabled="False" UseStrongDataTyping="False" Username="[in_SFDCUsername]">
+      <usa:SalesforceApplicationScope.Body>
+        <ActivityAction x:TypeArguments="usc:IConnectionService">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="usc:IConnectionService" Name="SalesforceConnection" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="Do - SFDC Update" sap:VirtualizedContainerService.HintSize="552,1326.4" sap2010:WorkflowViewState.IdRef="Sequence_21">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <If Condition="[isBillSchedPopulated]" DisplayName="If - isBillSchedPopulated" sap:VirtualizedContainerService.HintSize="510.4,1233.6" sap2010:WorkflowViewState.IdRef="If_8">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <If.Then>
+                <Sequence DisplayName="isBillSchedPopulated True" sap:VirtualizedContainerService.HintSize="475.2,1044.8" sap2010:WorkflowViewState.IdRef="Sequence_26">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <Assign DisplayName="Assign - soItems" sap:VirtualizedContainerService.HintSize="433.6,60" sap2010:WorkflowViewState.IdRef="Assign_20">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="nn:SalesOrderItem[]">[soItems]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="nn:SalesOrderItem[]">[so.itemList.item]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                  <ui:ForEach x:TypeArguments="nn:SalesOrderItem" CurrentIndex="{x:Null}" DisplayName="For Each SO item" sap:VirtualizedContainerService.HintSize="433.6,852" sap2010:WorkflowViewState.IdRef="ForEach`1_8" Values="[soItems]">
+                    <ui:ForEach.Body>
+                      <ActivityAction x:TypeArguments="nn:SalesOrderItem">
+                        <ActivityAction.Argument>
+                          <DelegateInArgument x:TypeArguments="nn:SalesOrderItem" Name="item" />
+                        </ActivityAction.Argument>
+                        <Sequence DisplayName="Body - For Each SO item" sap:VirtualizedContainerService.HintSize="304,727.2" sap2010:WorkflowViewState.IdRef="Sequence_25">
+                          <Sequence.Variables>
+                            <Variable x:TypeArguments="usam:SalesforceStatus" Name="updateProductResponse" />
+                            <Variable x:TypeArguments="sd:DataTable" Name="dt_Subscription" />
+                            <Variable x:TypeArguments="x:String" Name="subscriptionId" />
+                            <Variable x:TypeArguments="x:String" Name="billingScheduleId" />
+                          </Sequence.Variables>
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <Assign DisplayName="Assign - itemCustomFieldList" sap:VirtualizedContainerService.HintSize="262.4,60" sap2010:WorkflowViewState.IdRef="Assign_21">
+                            <Assign.To>
+                              <OutArgument x:TypeArguments="nn:CustomFieldRef[]">[itemCustomFieldList]</OutArgument>
+                            </Assign.To>
+                            <Assign.Value>
+                              <InArgument x:TypeArguments="nn:CustomFieldRef[]">[item.customFieldList]</InArgument>
+                            </Assign.Value>
+                          </Assign>
+                          <ui:ForEach x:TypeArguments="nn:CustomFieldRef" CurrentIndex="{x:Null}" DisplayName="For Each custom field of the item" sap:VirtualizedContainerService.HintSize="262.4,22.4" sap2010:WorkflowViewState.IdRef="ForEach`1_7" Values="[itemCustomFieldList]">
+                            <ui:ForEach.Body>
+                              <ActivityAction x:TypeArguments="nn:CustomFieldRef">
+                                <ActivityAction.Argument>
+                                  <DelegateInArgument x:TypeArguments="nn:CustomFieldRef" Name="itemCustomField" />
+                                </ActivityAction.Argument>
+                                <Sequence DisplayName="Body - For Each custom field of the item" sap:VirtualizedContainerService.HintSize="242,114" sap2010:WorkflowViewState.IdRef="Sequence_23">
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                  <If Condition="[itemCustomField.scriptId.Equals(&quot;custcol_uip_sfdc_opid&quot;)]" DisplayName="search for the sfdc product id" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="If_9">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <If.Then>
+                                      <Sequence DisplayName="itemCustomField.scriptId.Equals(&quot;custcol_uip_sfdc_opid&quot;)" sap:VirtualizedContainerService.HintSize="304,314" sap2010:WorkflowViewState.IdRef="Sequence_22">
+                                        <sap:WorkflowViewStateService.ViewState>
+                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                          </scg:Dictionary>
+                                        </sap:WorkflowViewStateService.ViewState>
+                                        <Assign DisplayName="Assign - stringCustomField" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_22">
+                                          <Assign.To>
+                                            <OutArgument x:TypeArguments="nn:StringCustomFieldRef">[stringCustomField]</OutArgument>
+                                          </Assign.To>
+                                          <Assign.Value>
+                                            <InArgument x:TypeArguments="nn:StringCustomFieldRef">[DirectCast(itemCustomField, StringCustomFieldRef)]</InArgument>
+                                          </Assign.Value>
+                                        </Assign>
+                                        <Assign DisplayName="Assign - sfdcProductId" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_23">
+                                          <Assign.To>
+                                            <OutArgument x:TypeArguments="x:String">[sfdcProductId]</OutArgument>
+                                          </Assign.To>
+                                          <Assign.Value>
+                                            <InArgument x:TypeArguments="x:String">[stringCustomField.value]</InArgument>
+                                          </Assign.Value>
+                                        </Assign>
+                                        <ui:Break DisplayName="Break - For Each custom field of the item" sap:VirtualizedContainerService.HintSize="262,22" sap2010:WorkflowViewState.IdRef="Break_4" />
+                                      </Sequence>
+                                    </If.Then>
+                                  </If>
+                                </Sequence>
+                              </ActivityAction>
+                            </ui:ForEach.Body>
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                          </ui:ForEach>
+                          <Assign DisplayName="Assign - billingScheduleId" sap:VirtualizedContainerService.HintSize="262.4,60" sap2010:WorkflowViewState.IdRef="Assign_25">
+                            <Assign.To>
+                              <OutArgument x:TypeArguments="x:String">[billingScheduleId]</OutArgument>
+                            </Assign.To>
+                            <Assign.Value>
+                              <InArgument x:TypeArguments="x:String">[item.billingSchedule.internalId]</InArgument>
+                            </Assign.Value>
+                          </Assign>
+                          <ui:LogMessage DisplayName="Log Message - Updating Order Product" sap:VirtualizedContainerService.HintSize="262,22" sap2010:WorkflowViewState.IdRef="LogMessage_8" Level="Info" Message="[&quot;Updating order product &quot; +sfdcProductId + &quot; with billing schedule id &quot; + billingScheduleId]">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                          </ui:LogMessage>
+                          <usa:ExecuteSoql SalesforceStatus="{x:Null}" DisplayName="Execute SOQL - Get Subscription" sap:VirtualizedContainerService.HintSize="262,22" sap2010:WorkflowViewState.IdRef="ExecuteSoql_1" Result="[dt_Subscription]" SoqlCommand="[&quot;SELECT SBQQ__Subscription__c FROM OrderItem WHERE Id='&quot;+sfdcProductId+&quot;'&quot;]" />
+                          <Assign DisplayName="Assign - subscriptionId" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_27">
+                            <Assign.To>
+                              <OutArgument x:TypeArguments="x:String">[subscriptionId]</OutArgument>
+                            </Assign.To>
+                            <Assign.Value>
+                              <InArgument x:TypeArguments="x:String">[dt_Subscription.Rows(0).Item("SBQQ__Subscription__c").ToString]</InArgument>
+                            </Assign.Value>
+                          </Assign>
+                          <usa:UpdateRecord AdditionalFields="{x:Null}" DisplayName="Update Record - OrderItem" sap:VirtualizedContainerService.HintSize="262,22" Id="[sfdcProductId]" sap2010:WorkflowViewState.IdRef="UpdateRecord_3" SalesforceObject="OrderItem" SalesforceObjectSelected="True" SalesforceStatus="[updateProductResponse]" SampleId="80202000000HVdjAAG">
+                            <usa:UpdateRecord.AllParameters>
+                              <scg:List x:TypeArguments="usawm:EntityFieldUiModel" Capacity="50">
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID0" ArgumentDirection="In" DataType="reference" DisplayName="Quote Line Item ID" ExternalId="False" IsSelected="False" Mandatory="False" Name="QuoteLineItemId" SampleData="">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID1" ArgumentDirection="In" DataType="double" DisplayName="Quantity" ExternalId="False" IsSelected="False" Mandatory="True" Name="Quantity" SampleData="1">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID2" ArgumentDirection="In" DataType="currency" DisplayName="Unit Price" ExternalId="False" IsSelected="False" Mandatory="True" Name="UnitPrice" SampleData="0">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID3" ArgumentDirection="In" DataType="date" DisplayName="Start Date" ExternalId="False" IsSelected="False" Mandatory="False" Name="ServiceDate" SampleData="2020-10-01">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID4" ArgumentDirection="In" DataType="date" DisplayName="End Date" ExternalId="False" IsSelected="False" Mandatory="False" Name="EndDate" SampleData="2021-09-30">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID5" ArgumentDirection="In" DataType="string" DisplayName="Line Description" ExternalId="False" IsSelected="False" Mandatory="False" Name="Description" SampleData="">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID6" ArgumentDirection="In" DataType="boolean" DisplayName="Activated" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__Activated__c" SampleData="false">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID7" ArgumentDirection="In" DataType="reference" DisplayName="Asset" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__Asset__c" SampleData="">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID8" ArgumentDirection="In" DataType="picklist" DisplayName="Billing Frequency" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__BillingFrequency__c" SampleData="Upfront">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID9" ArgumentDirection="In" DataType="picklist" DisplayName="Billing Type" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__BillingType__c" SampleData="">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID10" ArgumentDirection="In" DataType="reference" DisplayName="Block Price" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__BlockPrice__c" SampleData="">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID11" ArgumentDirection="In" DataType="picklist" DisplayName="Bookings Indicator" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__BookingsIndicator__c" SampleData="Include">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID12" ArgumentDirection="In" DataType="reference" DisplayName="Bundle Root" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__BundleRoot__c" SampleData="">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID13" ArgumentDirection="In" DataType="picklist" DisplayName="Charge Type" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__ChargeType__c" SampleData="">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID14" ArgumentDirection="In" DataType="picklist" DisplayName="Contract Action" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__ContractAction__c" SampleData="New">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID15" ArgumentDirection="In" DataType="reference" DisplayName="Contract" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__Contract__c" SampleData="">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID16" ArgumentDirection="In" DataType="boolean" DisplayName="Contracted" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__Contracted__c" SampleData="false">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID17" ArgumentDirection="In" DataType="picklist" DisplayName="Contracting Method" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__ContractingMethod__c" SampleData="Inherit">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID18" ArgumentDirection="In" DataType="double" DisplayName="Default Subscription Term" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__DefaultSubscriptionTerm__c" SampleData="12">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID19" ArgumentDirection="In" DataType="string" DisplayName="Segment Type" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__DimensionType__c" SampleData="">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID20" ArgumentDirection="In" DataType="reference" DisplayName="Discount Schedule" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__DiscountSchedule__c" SampleData="">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID21" ArgumentDirection="In" DataType="double" DisplayName="Ordered Quantity" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__OrderedQuantity__c" SampleData="1">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID22" ArgumentDirection="In" DataType="reference" DisplayName="Price Dimension" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__PriceDimension__c" SampleData="">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID23" ArgumentDirection="In" DataType="reference" DisplayName="Price Schedule" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__PriceSchedule__c" SampleData="">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID24" ArgumentDirection="In" DataType="picklist" DisplayName="Pricing Method" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__PricingMethod__c" SampleData="List">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID25" ArgumentDirection="In" DataType="picklist" DisplayName="Product Subscription Type" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__ProductSubscriptionType__c" SampleData="Renewable">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID26" ArgumentDirection="In" DataType="double" DisplayName="Prorate Multiplier" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__ProrateMultiplier__c" SampleData="1">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID27" ArgumentDirection="In" DataType="reference" DisplayName="Quote Line" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__QuoteLine__c" SampleData="a51020000008eppAAA">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID28" ArgumentDirection="In" DataType="currency" DisplayName="Quoted List Price" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__QuotedListPrice__c" SampleData="0">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID29" ArgumentDirection="In" DataType="double" DisplayName="Quoted Quantity" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__QuotedQuantity__c" SampleData="1">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID30" ArgumentDirection="In" DataType="reference" DisplayName="Required By" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__RequiredBy__c" SampleData="">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID31" ArgumentDirection="In" DataType="reference" DisplayName="Revised Order Product" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__RevisedOrderProduct__c" SampleData="">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID32" ArgumentDirection="In" DataType="double" DisplayName="Segment Index" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__SegmentIndex__c" SampleData="">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID33" ArgumentDirection="In" DataType="string" DisplayName="Segment Key" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__SegmentKey__c" SampleData="">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID34" ArgumentDirection="In" DataType="reference" DisplayName="Shipping Account" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__ShippingAccount__c" SampleData="">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID35" ArgumentDirection="In" DataType="picklist" DisplayName="Activation Status" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__Status__c" SampleData="Draft">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID36" ArgumentDirection="In" DataType="picklist" DisplayName="Subscription Pricing" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__SubscriptionPricing__c" SampleData="Fixed Price">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID37" ArgumentDirection="In" DataType="double" DisplayName="Subscription Term" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__SubscriptionTerm__c" SampleData="">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID38" ArgumentDirection="In" DataType="picklist" DisplayName="Subscription Type" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__SubscriptionType__c" SampleData="Renewable">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID39" ArgumentDirection="In" DataType="reference" DisplayName="Subscription" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__Subscription__c" SampleData="">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String">[billingScheduleId]</InArgument>
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID40" ArgumentDirection="In" DataType="currency" DisplayName="Estimated Tax" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__TaxAmount__c" SampleData="">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID41" ArgumentDirection="In" DataType="string" DisplayName="Tax code" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__TaxCode__c" SampleData="">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID42" ArgumentDirection="In" DataType="reference" DisplayName="Term Discount Schedule" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__TermDiscountSchedule__c" SampleData="">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID43" ArgumentDirection="In" DataType="date" DisplayName="Terminated Date" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__TerminatedDate__c" SampleData="">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID44" ArgumentDirection="In" DataType="currency" DisplayName="Full-Term Net Unit Price" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__UnproratedNetPrice__c" SampleData="">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID45" ArgumentDirection="In" DataType="reference" DisplayName="Upgraded Subscription" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__UpgradedSubscription__c" SampleData="">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID46" ArgumentDirection="In" DataType="textarea" DisplayName="License Codes" ExternalId="False" IsSelected="False" Mandatory="False" Name="License_Codes__c" SampleData="">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel ArgumentDirection="In" DataType="string" DisplayName="NS Sales Order Line Item ID" ExternalId="True" IsSelected="True" Mandatory="False" Name="NS_Sales_Order_Line_Item_ID__c" SampleData="">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String">[item.item.internalId]</InArgument>
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel x:Name="__ReferenceID47" ArgumentDirection="In" DataType="picklist" DisplayName="Product Version" ExternalId="False" IsSelected="False" Mandatory="False" Name="Product_Version__c" SampleData="2020.4">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel ArgumentDirection="In" DataType="string" DisplayName="NS Billing Scheduled ID" ExternalId="True" IsSelected="False" Mandatory="False" Name="NS_Billing_Scheduled_ID__c" SampleData="">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String">[billingScheduleId]</InArgument>
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                              </scg:List>
+                            </usa:UpdateRecord.AllParameters>
+                            <usa:UpdateRecord.OptionalParameters>
+                              <scg:List x:TypeArguments="usawm:EntityFieldUiModel" Capacity="48">
+                                <x:Reference>__ReferenceID0</x:Reference>
+                                <x:Reference>__ReferenceID1</x:Reference>
+                                <x:Reference>__ReferenceID2</x:Reference>
+                                <x:Reference>__ReferenceID3</x:Reference>
+                                <x:Reference>__ReferenceID4</x:Reference>
+                                <x:Reference>__ReferenceID5</x:Reference>
+                                <x:Reference>__ReferenceID6</x:Reference>
+                                <x:Reference>__ReferenceID7</x:Reference>
+                                <x:Reference>__ReferenceID8</x:Reference>
+                                <x:Reference>__ReferenceID9</x:Reference>
+                                <x:Reference>__ReferenceID10</x:Reference>
+                                <x:Reference>__ReferenceID11</x:Reference>
+                                <x:Reference>__ReferenceID12</x:Reference>
+                                <x:Reference>__ReferenceID13</x:Reference>
+                                <x:Reference>__ReferenceID14</x:Reference>
+                                <x:Reference>__ReferenceID15</x:Reference>
+                                <x:Reference>__ReferenceID16</x:Reference>
+                                <x:Reference>__ReferenceID17</x:Reference>
+                                <x:Reference>__ReferenceID18</x:Reference>
+                                <x:Reference>__ReferenceID19</x:Reference>
+                                <x:Reference>__ReferenceID20</x:Reference>
+                                <x:Reference>__ReferenceID21</x:Reference>
+                                <x:Reference>__ReferenceID22</x:Reference>
+                                <x:Reference>__ReferenceID23</x:Reference>
+                                <x:Reference>__ReferenceID24</x:Reference>
+                                <x:Reference>__ReferenceID25</x:Reference>
+                                <x:Reference>__ReferenceID26</x:Reference>
+                                <x:Reference>__ReferenceID27</x:Reference>
+                                <x:Reference>__ReferenceID28</x:Reference>
+                                <x:Reference>__ReferenceID29</x:Reference>
+                                <x:Reference>__ReferenceID30</x:Reference>
+                                <x:Reference>__ReferenceID31</x:Reference>
+                                <x:Reference>__ReferenceID32</x:Reference>
+                                <x:Reference>__ReferenceID33</x:Reference>
+                                <x:Reference>__ReferenceID34</x:Reference>
+                                <x:Reference>__ReferenceID35</x:Reference>
+                                <x:Reference>__ReferenceID36</x:Reference>
+                                <x:Reference>__ReferenceID37</x:Reference>
+                                <x:Reference>__ReferenceID38</x:Reference>
+                                <x:Reference>__ReferenceID39</x:Reference>
+                                <x:Reference>__ReferenceID40</x:Reference>
+                                <x:Reference>__ReferenceID41</x:Reference>
+                                <x:Reference>__ReferenceID42</x:Reference>
+                                <x:Reference>__ReferenceID43</x:Reference>
+                                <x:Reference>__ReferenceID44</x:Reference>
+                                <x:Reference>__ReferenceID45</x:Reference>
+                                <x:Reference>__ReferenceID46</x:Reference>
+                                <x:Reference>__ReferenceID47</x:Reference>
+                              </scg:List>
+                            </usa:UpdateRecord.OptionalParameters>
+                            <usa:UpdateRecord.SelectedParameters>
+                              <scg:List x:TypeArguments="usawm:EntityFieldUiModel" Capacity="2">
+                                <usawm:EntityFieldUiModel ArgumentDirection="In" DataType="string" DisplayName="NS Billing Scheduled ID" ExternalId="True" IsSelected="False" Mandatory="False" Name="NS_Billing_Scheduled_ID__c" SampleData="">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String">[billingScheduleId]</InArgument>
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel ArgumentDirection="In" DataType="string" DisplayName="NS Sales Order Line Item ID" ExternalId="True" IsSelected="True" Mandatory="False" Name="NS_Sales_Order_Line_Item_ID__c" SampleData="">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String">[item.item.internalId]</InArgument>
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                              </scg:List>
+                            </usa:UpdateRecord.SelectedParameters>
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                          </usa:UpdateRecord>
+                          <usa:UpdateRecord AdditionalFields="{x:Null}" SalesforceStatus="{x:Null}" SampleId="{x:Null}" DisplayName="Update Record - SBQQ__Subscription__c" sap:VirtualizedContainerService.HintSize="262,22" Id="[subscriptionId]" sap2010:WorkflowViewState.IdRef="UpdateRecord_4" SalesforceObject="SBQQ__Subscription__c" SalesforceObjectSelected="True">
+                            <usa:UpdateRecord.AllParameters>
+                              <scg:List x:TypeArguments="usawm:EntityFieldUiModel" Capacity="79">
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID48" ArgumentDirection="In" DataType="reference" DisplayName="Owner ID" ExternalId="False" IsSelected="False" Mandatory="False" Name="OwnerId">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID49" ArgumentDirection="In" DataType="picklist" DisplayName="Currency ISO Code" ExternalId="False" IsSelected="False" Mandatory="False" Name="CurrencyIsoCode">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID50" ArgumentDirection="In" DataType="reference" DisplayName="Account" ExternalId="False" IsSelected="False" Mandatory="True" Name="SBQQ__Account__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID51" ArgumentDirection="In" DataType="currency" DisplayName="Additional Disc. (Amt)" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__AdditionalDiscountAmount__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID52" ArgumentDirection="In" DataType="picklist" DisplayName="Billing Frequency" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__BillingFrequency__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID53" ArgumentDirection="In" DataType="picklist" DisplayName="Billing Type" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__BillingType__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID54" ArgumentDirection="In" DataType="boolean" DisplayName="Package" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__Bundle__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID55" ArgumentDirection="In" DataType="double" DisplayName="Original Quantity" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__BundledQuantity__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID56" ArgumentDirection="In" DataType="boolean" DisplayName="Bundled" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__Bundled__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID57" ArgumentDirection="In" DataType="picklist" DisplayName="Charge Type" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__ChargeType__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID58" ArgumentDirection="In" DataType="boolean" DisplayName="Component Discounted By Package" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__ComponentDiscountedByPackage__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID59" ArgumentDirection="In" DataType="picklist" DisplayName="Component Percent of Total Scope" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__ComponentSubscriptionScope__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID60" ArgumentDirection="In" DataType="reference" DisplayName="Contract" ExternalId="False" IsSelected="False" Mandatory="True" Name="SBQQ__Contract__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID61" ArgumentDirection="In" DataType="currency" DisplayName="Customer Price" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__CustomerPrice__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID62" ArgumentDirection="In" DataType="reference" DisplayName="Price Dimension" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__Dimension__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID63" ArgumentDirection="In" DataType="picklist" DisplayName="Discount Schedule Type" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__DiscountScheduleType__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID64" ArgumentDirection="In" DataType="reference" DisplayName="Discount Schedule" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__DiscountSchedule__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID65" ArgumentDirection="In" DataType="percent" DisplayName="Additional Disc. (%)" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__Discount__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID66" ArgumentDirection="In" DataType="percent" DisplayName="Distributor Discount" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__DistributorDiscount__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID67" ArgumentDirection="In" DataType="string" DisplayName="Dynamic Option ID" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__DynamicOptionId__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID68" ArgumentDirection="In" DataType="boolean" DisplayName="Has Consumption Schedules" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__HasConsumptionSchedule__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID69" ArgumentDirection="In" DataType="currency" DisplayName="List Price" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__ListPrice__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID70" ArgumentDirection="In" DataType="currency" DisplayName="Markup (Amt)" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__MarkupAmount__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID71" ArgumentDirection="In" DataType="percent" DisplayName="Markup (%)" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__MarkupRate__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID72" ArgumentDirection="In" DataType="currency" DisplayName="Net Price" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__NetPrice__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID73" ArgumentDirection="In" DataType="double" DisplayName="Number" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__Number__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID74" ArgumentDirection="In" DataType="currency" DisplayName="Option Discount (Amt)" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__OptionDiscountAmount__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID75" ArgumentDirection="In" DataType="percent" DisplayName="Option Discount (%)" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__OptionDiscount__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID76" ArgumentDirection="In" DataType="double" DisplayName="Option Level" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__OptionLevel__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID77" ArgumentDirection="In" DataType="picklist" DisplayName="Option Type" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__OptionType__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID78" ArgumentDirection="In" DataType="reference" DisplayName="Order Product" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__OrderProduct__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID79" ArgumentDirection="In" DataType="reference" DisplayName="Original Quote Line" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__OriginalQuoteLine__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID80" ArgumentDirection="In" DataType="currency" DisplayName="Original Unit Cost" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__OriginalUnitCost__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID81" ArgumentDirection="In" DataType="percent" DisplayName="Partner Discount" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__PartnerDiscount__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID82" ArgumentDirection="In" DataType="picklist" DisplayName="Pricing Method" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__PricingMethod__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID83" ArgumentDirection="In" DataType="reference" DisplayName="Product Option" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__ProductOption__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID84" ArgumentDirection="In" DataType="picklist" DisplayName="Product Subscription Type" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__ProductSubscriptionType__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID85" ArgumentDirection="In" DataType="reference" DisplayName="Product" ExternalId="False" IsSelected="False" Mandatory="True" Name="SBQQ__Product__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID86" ArgumentDirection="In" DataType="double" DisplayName="Prorate Multiplier" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__ProrateMultiplier__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID87" ArgumentDirection="In" DataType="double" DisplayName="Quantity" ExternalId="False" IsSelected="False" Mandatory="True" Name="SBQQ__Quantity__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID88" ArgumentDirection="In" DataType="reference" DisplayName="Quote Line" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__QuoteLine__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID89" ArgumentDirection="In" DataType="currency" DisplayName="Regular Price" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__RegularPrice__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID90" ArgumentDirection="In" DataType="currency" DisplayName="Renewal Price" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__RenewalPrice__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID91" ArgumentDirection="In" DataType="double" DisplayName="Renewal Quantity" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__RenewalQuantity__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID92" ArgumentDirection="In" DataType="percent" DisplayName="Renewal Uplift (%)" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__RenewalUpliftRate__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID93" ArgumentDirection="In" DataType="date" DisplayName="Renewed Date" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__RenewedDate__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID94" ArgumentDirection="In" DataType="string" DisplayName="Required By Id" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__RequiredById__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID95" ArgumentDirection="In" DataType="reference" DisplayName="Parent Product" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__RequiredByProduct__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID96" ArgumentDirection="In" DataType="reference" DisplayName="Revised Subscription" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__RevisedSubscription__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID97" ArgumentDirection="In" DataType="string" DisplayName="Root Id" ExternalId="True" IsSelected="False" Mandatory="False" Name="SBQQ__RootId__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID98" ArgumentDirection="In" DataType="date" DisplayName="Segment End Date" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__SegmentEndDate__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID99" ArgumentDirection="In" DataType="double" DisplayName="Segment Index" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__SegmentIndex__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID100" ArgumentDirection="In" DataType="string" DisplayName="Segment Key" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__SegmentKey__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID101" ArgumentDirection="In" DataType="string" DisplayName="Segment Label" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__SegmentLabel__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID102" ArgumentDirection="In" DataType="double" DisplayName="Segment Quantity" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__SegmentQuantity__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID103" ArgumentDirection="In" DataType="date" DisplayName="Segment Start Date" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__SegmentStartDate__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID104" ArgumentDirection="In" DataType="currency" DisplayName="Segment Uplift (Amt)" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__SegmentUpliftAmount__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID105" ArgumentDirection="In" DataType="percent" DisplayName="Segment Uplift" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__SegmentUplift__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID106" ArgumentDirection="In" DataType="currency" DisplayName="Special Price" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__SpecialPrice__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID107" ArgumentDirection="In" DataType="date" DisplayName="Subscription End Date" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__SubscriptionEndDate__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID108" ArgumentDirection="In" DataType="date" DisplayName="Subscription Start Date" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__SubscriptionStartDate__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID109" ArgumentDirection="In" DataType="picklist" DisplayName="Subscription Type" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__SubscriptionType__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID110" ArgumentDirection="In" DataType="reference" DisplayName="Term Discount Schedule" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__TermDiscountSchedule__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID111" ArgumentDirection="In" DataType="date" DisplayName="Terminated Date" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__TerminatedDate__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID112" ArgumentDirection="In" DataType="currency" DisplayName="Unit Cost" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__UnitCost__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID113" ArgumentDirection="In" DataType="string" DisplayName="Package Product Code" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__PackageProductCode__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID114" ArgumentDirection="In" DataType="textarea" DisplayName="Package Product Description" ExternalId="False" IsSelected="False" Mandatory="False" Name="SBQQ__PackageProductDescription__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID115" ArgumentDirection="In" DataType="boolean" DisplayName="Eligible for Premium Care" ExternalId="False" IsSelected="False" Mandatory="False" Name="Eligible_for_Premium_Care__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID116" ArgumentDirection="In" DataType="textarea" DisplayName="License Codes" ExternalId="False" IsSelected="False" Mandatory="False" Name="License_Codes__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID117" ArgumentDirection="In" DataType="boolean" DisplayName="Orchestrator Disaster Recovery Option" ExternalId="False" IsSelected="False" Mandatory="False" Name="Orchestrator_Disaster_Recovery_Option__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID118" ArgumentDirection="In" DataType="percent" DisplayName="Partner Tier Level Discount %" ExternalId="False" IsSelected="False" Mandatory="False" Name="Partner_Tier_Level_Discount__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID119" ArgumentDirection="In" DataType="percent" DisplayName="Partner or Distributor Discount %" ExternalId="False" IsSelected="False" Mandatory="False" Name="Partner_or_Distributor_Discount__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID120" ArgumentDirection="In" DataType="picklist" DisplayName="Product Version" ExternalId="False" IsSelected="False" Mandatory="False" Name="Product_Version__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID121" ArgumentDirection="In" DataType="percent" DisplayName="Business Partner Type Discount %" ExternalId="False" IsSelected="False" Mandatory="False" Name="Business_Partner_Type_Discount__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID122" ArgumentDirection="In" DataType="picklist" DisplayName="Select Orchestrator" ExternalId="False" IsSelected="False" Mandatory="False" Name="Select_Orchestrator__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID123" ArgumentDirection="In" DataType="string" DisplayName="Basic Helper" ExternalId="False" IsSelected="False" Mandatory="False" Name="Basic_Helper__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID124" ArgumentDirection="In" DataType="picklist" DisplayName="Deployment Version" ExternalId="False" IsSelected="False" Mandatory="False" Name="Deployment_Version__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" x:Name="__ReferenceID125" ArgumentDirection="In" DataType="textarea" DisplayName="Configuration JSON" ExternalId="False" IsSelected="False" Mandatory="False" Name="Configuration_JSON__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String" />
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" ArgumentDirection="In" DataType="string" DisplayName="NS Billing Scheduled ID" ExternalId="True" IsSelected="False" Mandatory="False" Name="NS_Billing_Scheduled_ID__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String">[billingScheduleId]</InArgument>
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                              </scg:List>
+                            </usa:UpdateRecord.AllParameters>
+                            <usa:UpdateRecord.OptionalParameters>
+                              <scg:List x:TypeArguments="usawm:EntityFieldUiModel" Capacity="78">
+                                <x:Reference>__ReferenceID48</x:Reference>
+                                <x:Reference>__ReferenceID49</x:Reference>
+                                <x:Reference>__ReferenceID50</x:Reference>
+                                <x:Reference>__ReferenceID51</x:Reference>
+                                <x:Reference>__ReferenceID52</x:Reference>
+                                <x:Reference>__ReferenceID53</x:Reference>
+                                <x:Reference>__ReferenceID54</x:Reference>
+                                <x:Reference>__ReferenceID55</x:Reference>
+                                <x:Reference>__ReferenceID56</x:Reference>
+                                <x:Reference>__ReferenceID57</x:Reference>
+                                <x:Reference>__ReferenceID58</x:Reference>
+                                <x:Reference>__ReferenceID59</x:Reference>
+                                <x:Reference>__ReferenceID60</x:Reference>
+                                <x:Reference>__ReferenceID61</x:Reference>
+                                <x:Reference>__ReferenceID62</x:Reference>
+                                <x:Reference>__ReferenceID63</x:Reference>
+                                <x:Reference>__ReferenceID64</x:Reference>
+                                <x:Reference>__ReferenceID65</x:Reference>
+                                <x:Reference>__ReferenceID66</x:Reference>
+                                <x:Reference>__ReferenceID67</x:Reference>
+                                <x:Reference>__ReferenceID68</x:Reference>
+                                <x:Reference>__ReferenceID69</x:Reference>
+                                <x:Reference>__ReferenceID70</x:Reference>
+                                <x:Reference>__ReferenceID71</x:Reference>
+                                <x:Reference>__ReferenceID72</x:Reference>
+                                <x:Reference>__ReferenceID73</x:Reference>
+                                <x:Reference>__ReferenceID74</x:Reference>
+                                <x:Reference>__ReferenceID75</x:Reference>
+                                <x:Reference>__ReferenceID76</x:Reference>
+                                <x:Reference>__ReferenceID77</x:Reference>
+                                <x:Reference>__ReferenceID78</x:Reference>
+                                <x:Reference>__ReferenceID79</x:Reference>
+                                <x:Reference>__ReferenceID80</x:Reference>
+                                <x:Reference>__ReferenceID81</x:Reference>
+                                <x:Reference>__ReferenceID82</x:Reference>
+                                <x:Reference>__ReferenceID83</x:Reference>
+                                <x:Reference>__ReferenceID84</x:Reference>
+                                <x:Reference>__ReferenceID85</x:Reference>
+                                <x:Reference>__ReferenceID86</x:Reference>
+                                <x:Reference>__ReferenceID87</x:Reference>
+                                <x:Reference>__ReferenceID88</x:Reference>
+                                <x:Reference>__ReferenceID89</x:Reference>
+                                <x:Reference>__ReferenceID90</x:Reference>
+                                <x:Reference>__ReferenceID91</x:Reference>
+                                <x:Reference>__ReferenceID92</x:Reference>
+                                <x:Reference>__ReferenceID93</x:Reference>
+                                <x:Reference>__ReferenceID94</x:Reference>
+                                <x:Reference>__ReferenceID95</x:Reference>
+                                <x:Reference>__ReferenceID96</x:Reference>
+                                <x:Reference>__ReferenceID97</x:Reference>
+                                <x:Reference>__ReferenceID98</x:Reference>
+                                <x:Reference>__ReferenceID99</x:Reference>
+                                <x:Reference>__ReferenceID100</x:Reference>
+                                <x:Reference>__ReferenceID101</x:Reference>
+                                <x:Reference>__ReferenceID102</x:Reference>
+                                <x:Reference>__ReferenceID103</x:Reference>
+                                <x:Reference>__ReferenceID104</x:Reference>
+                                <x:Reference>__ReferenceID105</x:Reference>
+                                <x:Reference>__ReferenceID106</x:Reference>
+                                <x:Reference>__ReferenceID107</x:Reference>
+                                <x:Reference>__ReferenceID108</x:Reference>
+                                <x:Reference>__ReferenceID109</x:Reference>
+                                <x:Reference>__ReferenceID110</x:Reference>
+                                <x:Reference>__ReferenceID111</x:Reference>
+                                <x:Reference>__ReferenceID112</x:Reference>
+                                <x:Reference>__ReferenceID113</x:Reference>
+                                <x:Reference>__ReferenceID114</x:Reference>
+                                <x:Reference>__ReferenceID115</x:Reference>
+                                <x:Reference>__ReferenceID116</x:Reference>
+                                <x:Reference>__ReferenceID117</x:Reference>
+                                <x:Reference>__ReferenceID118</x:Reference>
+                                <x:Reference>__ReferenceID119</x:Reference>
+                                <x:Reference>__ReferenceID120</x:Reference>
+                                <x:Reference>__ReferenceID121</x:Reference>
+                                <x:Reference>__ReferenceID122</x:Reference>
+                                <x:Reference>__ReferenceID123</x:Reference>
+                                <x:Reference>__ReferenceID124</x:Reference>
+                                <x:Reference>__ReferenceID125</x:Reference>
+                              </scg:List>
+                            </usa:UpdateRecord.OptionalParameters>
+                            <usa:UpdateRecord.SelectedParameters>
+                              <scg:List x:TypeArguments="usawm:EntityFieldUiModel" Capacity="1">
+                                <usawm:EntityFieldUiModel SampleData="{x:Null}" ArgumentDirection="In" DataType="string" DisplayName="NS Billing Scheduled ID" ExternalId="True" IsSelected="False" Mandatory="False" Name="NS_Billing_Scheduled_ID__c">
+                                  <usawm:EntityFieldUiModel.ArgumentValue>
+                                    <InArgument x:TypeArguments="x:String">[billingScheduleId]</InArgument>
+                                  </usawm:EntityFieldUiModel.ArgumentValue>
+                                </usawm:EntityFieldUiModel>
+                              </scg:List>
+                            </usa:UpdateRecord.SelectedParameters>
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                          </usa:UpdateRecord>
+                          <ui:LogMessage DisplayName="Log Message - updated sfdc" sap:VirtualizedContainerService.HintSize="262,22" sap2010:WorkflowViewState.IdRef="LogMessage_7" Level="Info" Message="[&quot;Update response message: &quot; + updateProductResponse.Message]">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                          </ui:LogMessage>
+                        </Sequence>
+                      </ActivityAction>
+                    </ui:ForEach.Body>
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                  </ui:ForEach>
+                </Sequence>
+              </If.Then>
+            </If>
+          </Sequence>
+        </ActivityAction>
+      </usa:SalesforceApplicationScope.Body>
+      <usa:SalesforceApplicationScope.DesignSalesforceConnectionInfo>
+        <usm:SalesforceConnectionInfo CustomInstanceEndpoint="{x:Null}" ProxyPassword="{x:Null}" ProxyPort="{x:Null}" ProxyServer="{x:Null}" ProxyUser="{x:Null}" ConsumerKey="3MVG9AJuBE3rTYDgBBzFRM73dUi8xVM5oJ451dty4_ITCEK4BcNtIoNccnNmHEYppRRHaEri2QP1iXNQ4s7vZ" EncryptedConsumerSecret="AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAASS/L4JBq0UinliWgXuDoOgAAAAACAAAAAAADZgAAwAAAABAAAADTpM8Wi5szuNifav1d2G2lAAAAAASAAACgAAAAEAAAAA0lBP8NFPtQTqWmQiKJbl5IAAAAP0Mg7dsZGbQwSvSwWIOyXdpITwc0as+8EAdahjHs4BC0n24EQVMVMEpsrSpgNlRomvty13oCLBuG9u9CUnrSITWxmX1olurCFAAAAAEQ+R3I5etcjCeHMNFtpGcNIQwc" EncryptedProxyUserPassword="" EncryptedSecurityToken="AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAASS/L4JBq0UinliWgXuDoOgAAAAACAAAAAAADZgAAwAAAABAAAABLC7tAgRMb5GwFWdjbMz0IAAAAAASAAACgAAAAEAAAAN51nRdpbqyVUUh+VB1Ep/UgAAAA27IYmoPdW79QDl7umgb2QOVRo5gepwaSWEqXMTsON6EUAAAAOiR1r/9o6UWhqhcST0X5TWvvSyI=" ServerInstance="Test" UserName="andrei.franciuc@uipath.com">
+          <usm:SalesforceConnectionInfo.ConsumerSecret>
+            <ss:SecureString />
+          </usm:SalesforceConnectionInfo.ConsumerSecret>
+          <usm:SalesforceConnectionInfo.Password>
+            <ss:SecureString />
+          </usm:SalesforceConnectionInfo.Password>
+          <usm:SalesforceConnectionInfo.SecurityToken>
+            <ss:SecureString />
+          </usm:SalesforceConnectionInfo.SecurityToken>
+        </usm:SalesforceConnectionInfo>
+      </usa:SalesforceApplicationScope.DesignSalesforceConnectionInfo>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </usa:SalesforceApplicationScope>
+  </Sequence>
+</Activity>

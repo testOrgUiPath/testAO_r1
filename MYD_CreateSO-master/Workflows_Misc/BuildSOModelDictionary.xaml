@@ -1,0 +1,1943 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="BuildSOModelDictionary" this:BuildSOModelDictionary.in_APIDateFormat="dd-MM-yyyy" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:maes="clr-namespace:Microsoft.Activities.Extensions.Statements;assembly=Microsoft.Activities.Extensions" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:n="clr-namespace:NetsuiteActivities;assembly=NetsuiteActivities" xmlns:nn="clr-namespace:NetsuiteActivities.NetsuiteService;assembly=NetsuiteActivities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:usc="clr-namespace:UiPath.Salesforce.ConnectionService;assembly=UiPath.Salesforce" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_ActivatedByUserEmail" Type="InArgument(x:String)" />
+    <x:Property Name="in_dt_Contract" Type="InArgument(sd:DataTable)" />
+    <x:Property Name="in_dt_Order" Type="InArgument(sd:DataTable)" />
+    <x:Property Name="in_dt_Products" Type="InArgument(sd:DataTable)" />
+    <x:Property Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="in_dt_BillToAccount" Type="InArgument(sd:DataTable)" />
+    <x:Property Name="in_dt_AccountId" Type="InArgument(sd:DataTable)" />
+    <x:Property Name="in_dt_BillToAddress" Type="InArgument(sd:DataTable)" />
+    <x:Property Name="in_dt_ShipToAddress" Type="InArgument(sd:DataTable)" />
+    <x:Property Name="out_dt_SOProducts" Type="OutArgument(sd:DataTable)" />
+    <x:Property Name="out_NotFoundProducts" Type="OutArgument(x:String)" />
+    <x:Property Name="out_IsAmendment" Type="OutArgument(x:Boolean)" />
+    <x:Property Name="out_TotalProductsAmount" Type="OutArgument(x:Double)" />
+    <x:Property Name="out_SalesOrderModel" Type="OutArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="in_APIDateFormat" Type="InArgument(x:String)" />
+    <x:Property Name="io_SFDCConnection" Type="InOutArgument(usc:IConnectionService)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>1054,5661</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>BuildSOModelDictionary_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="35">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Runtime.InteropServices</x:String>
+      <x:String>System.Activities.DynamicUpdate</x:String>
+      <x:String>Microsoft.Activities.Extensions.Statements</x:String>
+      <x:String>NetsuiteActivities.NetsuiteService</x:String>
+      <x:String>System.ComponentModel</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>NetsuiteActivities</x:String>
+      <x:String>UiPath.Salesforce.ConnectionService</x:String>
+      <x:String>UiPath.Excel</x:String>
+      <x:String>UiPath.Excel.Activities</x:String>
+      <x:String>UiPath.DataTableUtilities</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>Microsoft.Activities.Extensions</AssemblyReference>
+      <AssemblyReference>NetsuiteActivities</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.CV</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+      <AssemblyReference>Microsoft.Bcl.AsyncInterfaces</AssemblyReference>
+      <AssemblyReference>UiPath.Salesforce</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+      <AssemblyReference>System.Collections.Immutable</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence sap2010:Annotation.AnnotationText="Tihs workflow creates a dictionary containg the values of all the general fields that need to be passed in the Add Sales Order NS Custom activity, based on the info retreived from the SFDC Order.&#xA;It also builds the DT of products that need to be added to the NS Sales Order." DisplayName="BuildSOModelDictionary" sap:VirtualizedContainerService.HintSize="622,5596" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="s:DateTime" Name="maxEndDate" />
+      <Variable x:TypeArguments="x:Boolean" Name="IsPSOrder" />
+      <Variable x:TypeArguments="x:String" Name="PSOrder" />
+      <Variable x:TypeArguments="s:String[]" Name="elaProductCodesArray" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <TryCatch DisplayName="Try to construct dictionary" sap:VirtualizedContainerService.HintSize="560,4444" sap2010:WorkflowViewState.IdRef="TryCatch_5">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <TryCatch.Try>
+        <Sequence DisplayName="Build Dictionary" sap:VirtualizedContainerService.HintSize="522,4216" sap2010:WorkflowViewState.IdRef="Sequence_10">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:LogMessage DisplayName="Log Message - build dictionary" sap:VirtualizedContainerService.HintSize="460,25" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Info" Message="[&quot;Building SO model dictionary..&quot;]">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </ui:LogMessage>
+          <Assign DisplayName="Assign out_SfDictionary" sap:VirtualizedContainerService.HintSize="460,61" sap2010:WorkflowViewState.IdRef="Assign_1">
+            <Assign.To>
+              <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">[out_SalesOrderModel]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">[new dictionary(of String, Object)]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - Activated By User Email" sap:VirtualizedContainerService.HintSize="460,25" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_1" Key="ActivatedByUserEmail" Value="[in_ActivatedByUserEmail]">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </maes:AddToDictionary>
+          <Sequence DisplayName="Values From Contract DT" sap:VirtualizedContainerService.HintSize="460,80" sap2010:WorkflowViewState.IdRef="Sequence_22">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <TryCatch DisplayName="Try Catch - Set Contract Ref" sap:VirtualizedContainerService.HintSize="438,22" sap2010:WorkflowViewState.IdRef="TryCatch_7">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <TryCatch.Try>
+                <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - Contract Ref" sap:VirtualizedContainerService.HintSize="398,138" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_2" Key="ContractRef" Value="[in_dt_Contract(0)(&quot;contract_ref__c&quot;).ToString]">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </maes:AddToDictionary>
+              </TryCatch.Try>
+              <TryCatch.Catches>
+                <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="404,21" sap2010:WorkflowViewState.IdRef="Catch`1_7">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <ActivityAction x:TypeArguments="s:Exception">
+                    <ActivityAction.Argument>
+                      <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                    </ActivityAction.Argument>
+                    <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - Contract Ref Empty" sap:VirtualizedContainerService.HintSize="398,138" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_47" Key="ContractRef" Value="[String.Empty]">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </maes:AddToDictionary>
+                  </ActivityAction>
+                </Catch>
+              </TryCatch.Catches>
+            </TryCatch>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - First Aniversary Date Specified TRUE" sap:VirtualizedContainerService.HintSize="438,138" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_4" Key="FirstAnniversaryDateSpecified" Value="[True]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <TryCatch DisplayName="Set First Anniversary Date" sap:VirtualizedContainerService.HintSize="438,365" sap2010:WorkflowViewState.IdRef="TryCatch_2">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <TryCatch.Try>
+                <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary" sap:VirtualizedContainerService.HintSize="398,138" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_5" Key="FirstAnniversaryDate" Value="[in_dt_Contract(0)(&quot;First_Anniversary_Date__c&quot;).ToString]">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </maes:AddToDictionary>
+              </TryCatch.Try>
+              <TryCatch.Catches>
+                <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="404,21" sap2010:WorkflowViewState.IdRef="Catch`1_2">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <ActivityAction x:TypeArguments="s:Exception">
+                    <ActivityAction.Argument>
+                      <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                    </ActivityAction.Argument>
+                    <ui:MultipleAssign DisplayName="Multiple Assign - Dummy Sales Order First Anniversary" sap:VirtualizedContainerService.HintSize="431,131" sap2010:WorkflowViewState.IdRef="MultipleAssign_1">
+                      <ui:MultipleAssign.AssignOperations>
+                        <scg:List x:TypeArguments="ui:AssignOperation" Capacity="4">
+                          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_1">
+                            <ui:AssignOperation.To>
+                              <OutArgument x:TypeArguments="x:Object">[out_SalesOrderModel("FirstAnniversaryDateSpecified")]</OutArgument>
+                            </ui:AssignOperation.To>
+                            <ui:AssignOperation.Value>
+                              <InArgument x:TypeArguments="x:Object">[False]</InArgument>
+                            </ui:AssignOperation.Value>
+                          </ui:AssignOperation>
+                          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_2">
+                            <ui:AssignOperation.To>
+                              <OutArgument x:TypeArguments="x:Object">[out_SalesOrderModel("FirstAnniversaryDate")]</OutArgument>
+                            </ui:AssignOperation.To>
+                            <ui:AssignOperation.Value>
+                              <InArgument x:TypeArguments="x:Object">[DateTime.Today.ToString]</InArgument>
+                            </ui:AssignOperation.Value>
+                          </ui:AssignOperation>
+                        </scg:List>
+                      </ui:MultipleAssign.AssignOperations>
+                    </ui:MultipleAssign>
+                  </ActivityAction>
+                </Catch>
+              </TryCatch.Catches>
+            </TryCatch>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - Contract Start Date Secified TRUE" sap:VirtualizedContainerService.HintSize="438,22" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_6" Key="ContractStartDateSpecified" Value="[True]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <TryCatch DisplayName="Set Contract Start Date" sap:VirtualizedContainerService.HintSize="438,22" sap2010:WorkflowViewState.IdRef="TryCatch_3">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <TryCatch.Try>
+                <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - Contract Start Date" sap:VirtualizedContainerService.HintSize="398,138" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_7" Key="ContractStartDate" Value="[in_dt_Contract(0)(&quot;StartDate&quot;).ToString]">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </maes:AddToDictionary>
+              </TryCatch.Try>
+              <TryCatch.Catches>
+                <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="404,21" sap2010:WorkflowViewState.IdRef="Catch`1_3">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <ActivityAction x:TypeArguments="s:Exception">
+                    <ActivityAction.Argument>
+                      <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                    </ActivityAction.Argument>
+                    <ui:MultipleAssign DisplayName="Multiple Assign - Dummy Contract Start Date" sap:VirtualizedContainerService.HintSize="265,22" sap2010:WorkflowViewState.IdRef="MultipleAssign_2">
+                      <ui:MultipleAssign.AssignOperations>
+                        <scg:List x:TypeArguments="ui:AssignOperation" Capacity="4">
+                          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_3">
+                            <ui:AssignOperation.To>
+                              <OutArgument x:TypeArguments="x:Object">[out_SalesOrderModel("ContractStartDateSpecified")]</OutArgument>
+                            </ui:AssignOperation.To>
+                            <ui:AssignOperation.Value>
+                              <InArgument x:TypeArguments="x:Object">[False]</InArgument>
+                            </ui:AssignOperation.Value>
+                          </ui:AssignOperation>
+                          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_4">
+                            <ui:AssignOperation.To>
+                              <OutArgument x:TypeArguments="x:Object">[out_SalesOrderModel("ContractStartDate")]</OutArgument>
+                            </ui:AssignOperation.To>
+                            <ui:AssignOperation.Value>
+                              <InArgument x:TypeArguments="x:Object">[DateTime.Today.ToString]</InArgument>
+                            </ui:AssignOperation.Value>
+                          </ui:AssignOperation>
+                        </scg:List>
+                      </ui:MultipleAssign.AssignOperations>
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </ui:MultipleAssign>
+                  </ActivityAction>
+                </Catch>
+              </TryCatch.Catches>
+            </TryCatch>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - Contract End Date Specified TRUE" sap:VirtualizedContainerService.HintSize="438,22" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_8" Key="ContractEndDateSpecified" Value="[True]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <TryCatch DisplayName="Set Contract End Date" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="TryCatch_4">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <TryCatch.Try>
+                <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - Contract End Date" sap:VirtualizedContainerService.HintSize="398,138" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_9" Key="ContractEndDate" Value="[in_dt_Contract(0)(&quot;EndDate&quot;).ToString]">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </maes:AddToDictionary>
+              </TryCatch.Try>
+              <TryCatch.Catches>
+                <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="404,21" sap2010:WorkflowViewState.IdRef="Catch`1_4">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <ActivityAction x:TypeArguments="s:Exception">
+                    <ActivityAction.Argument>
+                      <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                    </ActivityAction.Argument>
+                    <ui:MultipleAssign DisplayName="Multiple Assign - Dummy Contract End Date" sap:VirtualizedContainerService.HintSize="334,129" sap2010:WorkflowViewState.IdRef="MultipleAssign_3">
+                      <ui:MultipleAssign.AssignOperations>
+                        <scg:List x:TypeArguments="ui:AssignOperation" Capacity="4">
+                          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_5">
+                            <ui:AssignOperation.To>
+                              <OutArgument x:TypeArguments="x:Object">[out_SalesOrderModel("ContractEndDateSpecified")]</OutArgument>
+                            </ui:AssignOperation.To>
+                            <ui:AssignOperation.Value>
+                              <InArgument x:TypeArguments="x:Object">[False]</InArgument>
+                            </ui:AssignOperation.Value>
+                          </ui:AssignOperation>
+                          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_6">
+                            <ui:AssignOperation.To>
+                              <OutArgument x:TypeArguments="x:Object">[out_SalesOrderModel("ContractEndDate")]</OutArgument>
+                            </ui:AssignOperation.To>
+                            <ui:AssignOperation.Value>
+                              <InArgument x:TypeArguments="x:Object">[DateTime.Today.ToString]</InArgument>
+                            </ui:AssignOperation.Value>
+                          </ui:AssignOperation>
+                        </scg:List>
+                      </ui:MultipleAssign.AssignOperations>
+                    </ui:MultipleAssign>
+                  </ActivityAction>
+                </Catch>
+              </TryCatch.Catches>
+            </TryCatch>
+          </Sequence>
+          <Sequence DisplayName="Values From Order DT" sap:VirtualizedContainerService.HintSize="460,2897" sap2010:WorkflowViewState.IdRef="Sequence_23">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - Booking Ex" sap:VirtualizedContainerService.HintSize="398,25" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_54" Key="BookingExceptions" Value="[in_dt_Order(0)(&quot;Booking_Exceptions__c&quot;)]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - Booking Ex Cat" sap:VirtualizedContainerService.HintSize="398,25" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_55" Key="BookingExceptionsCategory" Value="[in_dt_Order(0)(&quot;Booking_Exceptions_Category__c&quot;)]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - Payment Terms" sap:VirtualizedContainerService.HintSize="398,25" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_10" Key="PaymentTerms" Value="[in_dt_Order(0)(&quot;Payment_Terms__c&quot;).ToString]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <If Condition="[in_dt_Order(0)(&quot;Compensation__c&quot;).ToString.ToLower.Contains(&quot;rebill&quot;)]" DisplayName="Add Compensation" sap:VirtualizedContainerService.HintSize="398,25" sap2010:WorkflowViewState.IdRef="If_1">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <If.Then>
+                <Sequence DisplayName="Set Compensation Rebill" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Sequence_6">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <ui:LogMessage DisplayName="Log Message - setting value to re billed" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Trace" Message="[&quot;Compensation is &quot; +in_dt_Order(0)(&quot;Compensation__c&quot;).ToString + &quot;; setting value to Re-billed Invoice&quot;]" />
+                  <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - Compensation Rebill" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_11" Key="Compensation" Value="[&quot;Re-billed Invoice&quot;]">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                  </maes:AddToDictionary>
+                </Sequence>
+              </If.Then>
+              <If.Else>
+                <Sequence DisplayName="Set Compensation As Is" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Sequence_7">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <ui:LogMessage DisplayName="Log Message - Leaving value as is" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Trace" Message="[&quot;Compensation is &quot; +in_dt_Order(0)(&quot;Compensation__c&quot;).ToString + &quot;; leaving value as is&quot;]" />
+                  <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - Compensation" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_12" Key="Compensation" Value="[in_dt_Order(0)(&quot;Compensation__c&quot;).ToString]">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                  </maes:AddToDictionary>
+                </Sequence>
+              </If.Else>
+            </If>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - RebBillFor" sap:VirtualizedContainerService.HintSize="398,25" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_13" Key="ReBillFor" Value="[in_dt_Order(0)(&quot;Re_billed_Invoice__c&quot;).ToString]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - &quot;FinanceMemo&quot;" sap:VirtualizedContainerService.HintSize="398,25" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_14" Key="FinanceMemo" Value="[in_dt_Order(0)(&quot;Finance_Memo__c&quot;).ToString]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - &quot;StartDate&quot;" sap:VirtualizedContainerService.HintSize="398,25" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_15" Key="StartDate" Value="[in_dt_Order(0)(&quot;EffectiveDate&quot;).ToString]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - &quot;FinanceComments&quot;" sap:VirtualizedContainerService.HintSize="398,25" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_16" Key="FinanceComments" Value="[in_dt_Order(0)(&quot;Finance_Comments__c&quot;).ToString]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - &quot;PostingDate&quot;" sap:VirtualizedContainerService.HintSize="398,25" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_17" Key="PostingDate" Value="[in_dt_Order(0)(&quot;Posting_Date__c&quot;).ToString]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary -&quot;OpportunityDealType&quot;" sap:VirtualizedContainerService.HintSize="398,25" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_18" Key="OpportunityDealType" Value="[in_dt_Order(0)(&quot;Opportunity_Deal_Type__c&quot;).ToString]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary -&quot;OpportunityOwnerEmail&quot;" sap:VirtualizedContainerService.HintSize="398,139" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_19" Key="OpportunityOwnerEmail" Value="[in_dt_Order(0)(&quot;Opportunity_Owner_Email__c&quot;).ToString]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - &quot;OpportunityId&quot;" sap:VirtualizedContainerService.HintSize="398,25" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_24" Key="OpportunityId" Value="[in_dt_Order(0)(&quot;OpportunityId&quot;).ToString]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - &quot;SendInvoiceToEmail&quot; " sap:VirtualizedContainerService.HintSize="398,25" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_25" Key="SendInvoiceToEmail" Value="[in_dt_Order(0)(&quot;Send_invoice_to_email__c&quot;).ToString]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - &quot;BillToAddress&quot;" sap:VirtualizedContainerService.HintSize="398,25" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_26" Key="BillToAddress" Value="[in_dt_Order(0)(&quot;Bill_To_Address__c&quot;).ToString]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - &quot;BillToAccountGeo&quot;" sap:VirtualizedContainerService.HintSize="398,143" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_34" Key="BillToAccountGeo" Value="[If(in_dt_Order(0)(&quot;Bill_to_Account_Geo__c&quot;).ToString.ToUpper.Equals(&quot;APJ&quot;), _&#xA;&#x9;If(in_dt_Order.Columns.Contains(&quot;Bill_To_Account__r.Area__c&quot;) AndAlso (in_dt_Order(0)(&quot;Bill_To_Account__r.Area__c&quot;).ToString.ToUpper.Equals(&quot;INDIA&quot;) Or in_dt_Order(0)(&quot;Bill_To_Account__r.Area__c&quot;).ToString.ToUpper.Equals(&quot;JAPAN&quot;)), in_dt_Order(0)(&quot;Bill_To_Account__r.Area__c&quot;).ToString, &quot;APAC&quot;), _&#xA;&#x9;in_dt_Order(0)(&quot;Bill_to_Account_Geo__c&quot;).ToString.ToUpper)]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary -&quot;ShipToAddress&quot;" sap:VirtualizedContainerService.HintSize="397.6,22.4" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_29" Key="ShipToAddress" Value="[in_dt_Order(0)(&quot;Ship_To_Address__c&quot;).ToString]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary -&quot;BillingFrequency&quot;" sap:VirtualizedContainerService.HintSize="397.6,22.4" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_32" Key="BillingFrequency" Value="[in_dt_Order(0)(&quot;Billing_Frequency__c&quot;).ToString]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - &quot;Currency&quot;" sap:VirtualizedContainerService.HintSize="397.6,22.4" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_33" Key="Currency" Value="[in_dt_Order(0)(&quot;CurrencyIsoCode&quot;).ToString]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - &quot;SyncStatus&quot;" sap:VirtualizedContainerService.HintSize="397.6,22.4" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_35" Key="SyncStatus" Value="[in_dt_Order(0)(&quot;Sync_Status__c&quot;).ToString]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary -&quot;NetsuiteSOID&quot;" sap:VirtualizedContainerService.HintSize="397.6,22.4" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_36" Key="NetsuiteSOID" Value="[in_dt_Order(0)(&quot;NS_Sales_Order_ID__c&quot;).ToString]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary  - &quot;OrderId&quot;" sap:VirtualizedContainerService.HintSize="397.6,22.4" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_37" Key="OrderId" Value="[in_dt_Order(0)(&quot;Id&quot;).ToString]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - &quot;PoNumber&quot;" sap:VirtualizedContainerService.HintSize="397.6,22.4" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_38" Key="PoNumber" Value="[in_dt_Order(0)(&quot;PoNumber&quot;).ToString]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - &quot;OrderType-bkp&quot;" sap:VirtualizedContainerService.HintSize="397.6,22.4" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_39" Key="OrderTypeFromOrderLevel" Value="[in_dt_Order(0)(&quot;Type&quot;).ToString]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary -&quot;SFDCOrderType&quot;" sap:VirtualizedContainerService.HintSize="397.6,22.4" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_40" Key="SFDCOrderType" Value="[in_dt_Order(0)(&quot;Type&quot;).ToString]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - &quot;NonStandardTC&quot;" sap:VirtualizedContainerService.HintSize="397.6,22.4" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_41" Key="NonStandardTC" Value="[in_dt_Order(0)(&quot;Non_Standard_Terms_and_Conditions__c&quot;).ToString]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - &quot;NonStandardTCComment&quot;" sap:VirtualizedContainerService.HintSize="397.6,135.2" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_42" Key="NonStandardTCComment" Value="[in_dt_Order(0)(&quot;Non_Standard_T_C_Comment__c&quot;).ToString]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - &quot;ZeroValueSO&quot;" sap:VirtualizedContainerService.HintSize="397.6,22.4" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_43" Key="ZeroValueSO" Value="[in_dt_Order(0)(&quot;Zero_Value_SO_Dont_Invoice__c&quot;).ToString]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - &quot;POType&quot;" sap:VirtualizedContainerService.HintSize="397.6,135.2" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_48" Key="POType" Value="[in_dt_Order(0)(&quot;PO_Type__c&quot;).ToString]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" sap2010:Annotation.AnnotationText="CR: Added Credit Reason in Sales Order Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - Credit Reason" sap:VirtualizedContainerService.HintSize="397.6,166.4" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_51" Key="CreditReason" Value="[in_dt_Order(0)(&quot;NS_Credit_Reason__c&quot;).ToString]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                  <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" sap2010:Annotation.AnnotationText="CR: Added Credit Reason Category in Sales Order Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - Credit Reason Category" sap:VirtualizedContainerService.HintSize="397.6,166.4" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_52" Key="CreditReasonCategory" Value="[in_dt_Order(0)(&quot;NS_Credit_Reason_Category__c&quot;).ToString]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                  <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - replacement" sap:VirtualizedContainerService.HintSize="397.6,135.2" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_53" Key="Replacement" Value="[in_dt_Order(0)(&quot;Replacement_Transaction__c&quot;).ToString]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+          </Sequence>
+          <Sequence DisplayName="Values From Bill To Account DT" sap:VirtualizedContainerService.HintSize="460,80" sap2010:WorkflowViewState.IdRef="Sequence_25">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - &quot;BillToAccount_GAID&quot;" sap:VirtualizedContainerService.HintSize="338,25" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_20" Key="BillToAccount_GAID" Value="[in_dt_BillToAccount(0)(&quot;Global_Account_ID__c&quot;).ToString]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - &quot;BillToAccount_ID&quot;" sap:VirtualizedContainerService.HintSize="338,25" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_21" Key="BillToAccount_ID" Value="[in_dt_BillToAccount(0)(&quot;Id&quot;).ToString]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+          </Sequence>
+          <Sequence DisplayName="Values From Account ID DT" sap:VirtualizedContainerService.HintSize="460,80" sap2010:WorkflowViewState.IdRef="Sequence_26">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - &quot;AccountId_GAID&quot;" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_22" Key="AccountId_GAID" Value="[in_dt_AccountId(0)(&quot;Global_Account_ID__c&quot;).ToString]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - &quot;AccountId_ID&quot;" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_23" Key="AccountId_ID" Value="[in_dt_AccountId(0)(&quot;Id&quot;).ToString]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+          </Sequence>
+          <Sequence DisplayName="Values From Bill To Address DT" sap:VirtualizedContainerService.HintSize="460,80" sap2010:WorkflowViewState.IdRef="Sequence_27">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - &quot;BillToAddressNS&quot;" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_27" Key="BillToAddressNS" Value="[in_dt_BillToAddress(0)(&quot;NS_Address_Internal_ID__c&quot;).ToString]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - &quot;BillToAddressSFDC&quot;" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_28" Key="BillToAddressSFDC" Value="[in_dt_BillToAddress(0)(&quot;Id&quot;).ToString]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+          </Sequence>
+          <Sequence DisplayName="Values From Ship To Address DT" sap:VirtualizedContainerService.HintSize="460,80" sap2010:WorkflowViewState.IdRef="Sequence_24">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - &quot;ShipToAddressNS&quot;" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_30" Key="ShipToAddressNS" Value="[in_dt_ShipToAddress(0)(&quot;NS_Address_Internal_ID__c&quot;).ToString]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - &quot;ShipToAddressSFDC&quot;" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_31" Key="ShipToAddressSFDC" Value="[in_dt_ShipToAddress(0)(&quot;Id&quot;).ToString]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+          </Sequence>
+          <Sequence DisplayName="Set the order type" sap:VirtualizedContainerService.HintSize="460,80" sap2010:WorkflowViewState.IdRef="Sequence_8">
+            <Sequence.Variables>
+              <Variable x:TypeArguments="scg:Dictionary(x:String, x:String)" Name="orderTypeMappingDictionary" />
+              <Variable x:TypeArguments="x:String" Name="opportunityType" />
+              <Variable x:TypeArguments="x:String" Name="orderType" />
+            </Sequence.Variables>
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <ui:MultipleAssign DisplayName="Multiple Assign - Order Type Details" sap:VirtualizedContainerService.HintSize="431,162" sap2010:WorkflowViewState.IdRef="MultipleAssign_4">
+              <ui:MultipleAssign.AssignOperations>
+                <scg:List x:TypeArguments="ui:AssignOperation" Capacity="4">
+                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_7">
+                    <ui:AssignOperation.To>
+                      <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:String)">[orderTypeMappingDictionary]</OutArgument>
+                    </ui:AssignOperation.To>
+                    <ui:AssignOperation.Value>
+                      <InArgument x:TypeArguments="scg:Dictionary(x:String, x:String)">[DirectCast(in_Config("OrderTypeMapping"), Dictionary(Of String, String))]</InArgument>
+                    </ui:AssignOperation.Value>
+                  </ui:AssignOperation>
+                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_8">
+                    <ui:AssignOperation.To>
+                      <OutArgument x:TypeArguments="x:String">[opportunityType]</OutArgument>
+                    </ui:AssignOperation.To>
+                    <ui:AssignOperation.Value>
+                      <InArgument x:TypeArguments="x:String">[in_dt_Order(0)("Opportunity_Type__c").ToString]</InArgument>
+                    </ui:AssignOperation.Value>
+                  </ui:AssignOperation>
+                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_9">
+                    <ui:AssignOperation.To>
+                      <OutArgument x:TypeArguments="x:String">[orderType]</OutArgument>
+                    </ui:AssignOperation.To>
+                    <ui:AssignOperation.Value>
+                      <InArgument x:TypeArguments="x:String">[if (Not String.IsNullOrWhiteSpace(opportunityType), orderTypeMappingDictionary(opportunityType), "Contract - New")]</InArgument>
+                    </ui:AssignOperation.Value>
+                  </ui:AssignOperation>
+                </scg:List>
+              </ui:MultipleAssign.AssignOperations>
+            </ui:MultipleAssign>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - &quot;OrderType&quot;" sap:VirtualizedContainerService.HintSize="431,138" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_44" Key="OrderType" Value="[orderType]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+          </Sequence>
+          <Sequence DisplayName="Set JP Campaign" sap:VirtualizedContainerService.HintSize="460,80" sap2010:WorkflowViewState.IdRef="Sequence_9">
+            <Sequence.Variables>
+              <Variable x:TypeArguments="x:String" Name="jpCampaign" />
+            </Sequence.Variables>
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <Assign DisplayName="Assign - jpCampaign" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_2">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[jpCampaign]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[in_dt_Order(0)("Opportunity.JP_Campaign__c").ToString]</InArgument>
+              </Assign.Value>
+            </Assign>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - &quot;OpportunityJPCampaign&quot;" sap:VirtualizedContainerService.HintSize="262,22" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_45" Key="OpportunityJPCampaign" Value="[if(jpCampaign.Contains(&quot;N/A&quot;), &quot;&quot;, jpCampaign)]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+          </Sequence>
+          <Sequence sap2010:Annotation.AnnotationText="This is also from Orders DT, but it is separate for tracking purposes, as it was requested in CR7.&#xA;If SFDC Order field SBQQ__Quote__r.SCOPEQuote__c = true, the Order is considerred a PS Order." DisplayName="Set PS Order True/False" sap:VirtualizedContainerService.HintSize="460,97" sap2010:WorkflowViewState.IdRef="Sequence_30">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <ui:MultipleAssign DisplayName="Multiple Assign - PSOrder" sap:VirtualizedContainerService.HintSize="431,131" sap2010:WorkflowViewState.IdRef="MultipleAssign_10">
+              <ui:MultipleAssign.AssignOperations>
+                <scg:List x:TypeArguments="ui:AssignOperation" Capacity="4">
+                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_60">
+                    <ui:AssignOperation.To>
+                      <OutArgument x:TypeArguments="x:String">[PSOrder]</OutArgument>
+                    </ui:AssignOperation.To>
+                    <ui:AssignOperation.Value>
+                      <InArgument x:TypeArguments="x:String">[in_dt_Order(0)("SBQQ__Quote__r.SCOPEQuote__c").ToString]</InArgument>
+                    </ui:AssignOperation.Value>
+                  </ui:AssignOperation>
+                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_61">
+                    <ui:AssignOperation.To>
+                      <OutArgument x:TypeArguments="x:Boolean">[IsPSOrder]</OutArgument>
+                    </ui:AssignOperation.To>
+                    <ui:AssignOperation.Value>
+                      <InArgument x:TypeArguments="x:Boolean">[CBool(PSOrder)]</InArgument>
+                    </ui:AssignOperation.Value>
+                  </ui:AssignOperation>
+                </scg:List>
+              </ui:MultipleAssign.AssignOperations>
+            </ui:MultipleAssign>
+            <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - PSOrder" sap:VirtualizedContainerService.HintSize="431,138" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_49" Key="PSOrder" Value="[PSOrder]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </maes:AddToDictionary>
+          </Sequence>
+        </Sequence>
+      </TryCatch.Try>
+      <TryCatch.Catches>
+        <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="526,21" sap2010:WorkflowViewState.IdRef="Catch`1_5">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ActivityAction x:TypeArguments="s:Exception">
+            <ActivityAction.Argument>
+              <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+            </ActivityAction.Argument>
+            <Throw DisplayName="Throw BRE - Construct Order Model Dictionary" Exception="[new BusinessRuleException(&quot;Dictionary could not be built; exception details: &quot;+exception.Message)]" sap:VirtualizedContainerService.HintSize="200,25" sap2010:WorkflowViewState.IdRef="Throw_1" />
+          </ActivityAction>
+        </Catch>
+      </TryCatch.Catches>
+    </TryCatch>
+    <Assign DisplayName="Set the Array of ELA partial product codes" sap:VirtualizedContainerService.HintSize="560,61" sap2010:WorkflowViewState.IdRef="Assign_18">
+      <Assign.To>
+        <OutArgument x:TypeArguments="s:String[]">[elaProductCodesArray]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="s:String[]">[in_Config("ELAProductCode").ToString.Split(","c)]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each partial ELA product code in the list  - check among the order items" sap:VirtualizedContainerService.HintSize="500,25" sap2010:WorkflowViewState.IdRef="ForEach`1_1" Values="[elaProductCodesArray]">
+      <ui:ForEach.Body>
+        <ActivityAction x:TypeArguments="x:String">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="x:String" Name="partialELAProductCode" />
+          </ActivityAction.Argument>
+          <ui:ForEachRow ColumnNames="{x:Null}" CurrentIndex="{x:Null}" DataTable="[in_dt_Products]" DisplayName="Identify ELA products - Search for ELA product and set flag" sap:VirtualizedContainerService.HintSize="434,257" sap2010:WorkflowViewState.IdRef="ForEachRow_2">
+            <ui:ForEachRow.Body>
+              <ActivityAction x:TypeArguments="sd:DataRow">
+                <ActivityAction.Argument>
+                  <DelegateInArgument x:TypeArguments="sd:DataRow" Name="row" />
+                </ActivityAction.Argument>
+                <Sequence DisplayName="Body - Identify ELA products" sap:VirtualizedContainerService.HintSize="400,136" sap2010:WorkflowViewState.IdRef="Sequence_29">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <If Condition="[row(&quot;Product2.ProductCode&quot;).ToString.Contains(partialELAProductCode)]" DisplayName="If ELA Product found filter out the children" sap:VirtualizedContainerService.HintSize="338,25" sap2010:WorkflowViewState.IdRef="If_6">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <If.Then>
+                      <Sequence DisplayName="ELA Product found filter out the children" sap:VirtualizedContainerService.HintSize="441,354" sap2010:WorkflowViewState.IdRef="Sequence_28">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke FilterOutELAChildrenFromOrderItems workflow" sap:VirtualizedContainerService.HintSize="379,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" LogEntry="No" LogExit="No" UnSafe="False" WorkflowFileName="Worflows_Apps\SalesForce\SFDC_FilterOutELAChildrenFromOrderItems.xaml">
+                          <ui:InvokeWorkflowFile.Arguments>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_OrderId">[in_dt_Order(0)("Id").ToString]</InArgument>
+                            <InOutArgument x:TypeArguments="usc:IConnectionService" x:Key="io_SFDCConnection">[io_SFDCConnection]</InOutArgument>
+                            <OutArgument x:TypeArguments="sd:DataTable" x:Key="out_dt_Products">[in_dt_Products]</OutArgument>
+                            <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                            <InArgument x:TypeArguments="s:String[]" x:Key="in_ELAPartialProductCodes">[elaProductCodesArray]</InArgument>
+                          </ui:InvokeWorkflowFile.Arguments>
+                        </ui:InvokeWorkflowFile>
+                        <ui:Break DisplayName="Break For each data row - ELA Products found and filtered out the children" sap:VirtualizedContainerService.HintSize="379,25" sap2010:WorkflowViewState.IdRef="Break_1" />
+                        <ui:Break DisplayName="Break For each loop - ELA Products found and filtered out the children" sap:VirtualizedContainerService.HintSize="379,25" sap2010:WorkflowViewState.IdRef="Break_2" />
+                      </Sequence>
+                    </If.Then>
+                  </If>
+                </Sequence>
+              </ActivityAction>
+            </ui:ForEachRow.Body>
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </ui:ForEachRow>
+        </ActivityAction>
+      </ui:ForEach.Body>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ui:ForEach>
+    <Sequence DisplayName="Build Products DT" sap:VirtualizedContainerService.HintSize="493,599" sap2010:WorkflowViewState.IdRef="Sequence_20">
+      <Sequence.Variables>
+        <Variable x:TypeArguments="x:Boolean" Name="firstProduct" />
+        <Variable x:TypeArguments="x:String" Name="revisedNSSOID" />
+      </Sequence.Variables>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <ui:ReadRange Range="{x:Null}" AddHeaders="True" DataTable="[out_dt_SOProducts]" DisplayName="Read Range - Build SO Products Table" sap:VirtualizedContainerService.HintSize="431,88" sap2010:WorkflowViewState.IdRef="ReadRange_1" SheetName="[in_Config(&quot;SOProductsTableHeaderSheetName&quot;).ToString]" WorkbookPath="[in_Config(&quot;SOProductsTableHeaderFilePath&quot;).ToString]" />
+      <ui:MultipleAssign DisplayName="Initialize variables and arguments" sap:VirtualizedContainerService.HintSize="431,194" sap2010:WorkflowViewState.IdRef="MultipleAssign_5">
+        <ui:MultipleAssign.AssignOperations>
+          <scg:List x:TypeArguments="ui:AssignOperation" Capacity="8">
+            <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_10">
+              <ui:AssignOperation.To>
+                <OutArgument x:TypeArguments="x:String">[out_NotFoundProducts]</OutArgument>
+              </ui:AssignOperation.To>
+              <ui:AssignOperation.Value>
+                <InArgument x:TypeArguments="x:String">
+                  <Literal x:TypeArguments="x:String" Value="" />
+                </InArgument>
+              </ui:AssignOperation.Value>
+            </ui:AssignOperation>
+            <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_11">
+              <ui:AssignOperation.To>
+                <OutArgument x:TypeArguments="x:Boolean">[firstProduct]</OutArgument>
+              </ui:AssignOperation.To>
+              <ui:AssignOperation.Value>
+                <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+              </ui:AssignOperation.Value>
+            </ui:AssignOperation>
+            <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_33">
+              <ui:AssignOperation.To>
+                <OutArgument x:TypeArguments="x:Boolean">[out_IsAmendment]</OutArgument>
+              </ui:AssignOperation.To>
+              <ui:AssignOperation.Value>
+                <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+              </ui:AssignOperation.Value>
+            </ui:AssignOperation>
+            <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_13">
+              <ui:AssignOperation.To>
+                <OutArgument x:TypeArguments="x:Double">[out_TotalProductsAmount]</OutArgument>
+              </ui:AssignOperation.To>
+              <ui:AssignOperation.Value>
+                <InArgument x:TypeArguments="x:Double">[Math.Round(CDbl(in_dt_Order(0)("TotalAmount").ToString), 2)]</InArgument>
+              </ui:AssignOperation.Value>
+            </ui:AssignOperation>
+          </scg:List>
+        </ui:MultipleAssign.AssignOperations>
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </ui:MultipleAssign>
+      <ui:ForEachRow ColumnNames="{x:Null}" CurrentIndex="{x:Null}" DataTable="[in_dt_Products]" DisplayName="For Each Row - In Products DT" sap:VirtualizedContainerService.HintSize="496,750" sap2010:WorkflowViewState.IdRef="ForEachRow_1">
+        <ui:ForEachRow.Body>
+          <ActivityAction x:TypeArguments="sd:DataRow">
+            <ActivityAction.Argument>
+              <DelegateInArgument x:TypeArguments="sd:DataRow" Name="sfdcProduct" />
+            </ActivityAction.Argument>
+            <Sequence DisplayName="Body - Build Products DT" sap:VirtualizedContainerService.HintSize="462,629" sap2010:WorkflowViewState.IdRef="Sequence_19">
+              <Sequence.Variables>
+                <Variable x:TypeArguments="x:String" Name="itemName" />
+                <Variable x:TypeArguments="x:String" Name="itemInternalId" />
+                <Variable x:TypeArguments="x:String" Name="prorateMultiplier" />
+                <Variable x:TypeArguments="x:String" Name="billingFrequency" />
+                <Variable x:TypeArguments="x:String" Name="quantity" />
+                <Variable x:TypeArguments="x:String" Name="totalPrice" />
+                <Variable x:TypeArguments="x:String" Name="licenseCodes" />
+                <Variable x:TypeArguments="x:String" Name="contractAction" />
+                <Variable x:TypeArguments="s:DateTime" Name="startDate" />
+                <Variable x:TypeArguments="s:DateTime" Name="endDate" />
+                <Variable x:TypeArguments="x:String" Name="itemId" />
+                <Variable x:TypeArguments="x:String" Name="itemOrderId" />
+                <Variable x:TypeArguments="x:String" Name="sfdcParentId" />
+                <Variable x:TypeArguments="x:String" Name="contractId" />
+                <Variable x:TypeArguments="x:String" Name="revisedSFDCProductId" />
+                <Variable x:TypeArguments="x:String" Name="nonSubscription" />
+                <Variable x:TypeArguments="x:String" Name="jpRate" />
+                <Variable x:TypeArguments="x:String" Name="totalDiscount" />
+                <Variable x:TypeArguments="x:String" Name="rate" />
+                <Variable x:TypeArguments="x:String" Name="QLEstStartDate" />
+                <Variable x:TypeArguments="x:String" Name="QLEstEndDate" />
+                <Variable x:TypeArguments="x:String" Name="QLCustomCost" />
+                <Variable x:TypeArguments="x:String" Name="QLTotalDiscount" />
+                <Variable x:TypeArguments="x:String" Name="QLCRT" />
+                <Variable x:TypeArguments="x:String" Name="QLSBQQNetTotal" />
+                <Variable x:TypeArguments="x:String" Name="QLSBQQListTotal" />
+                <Variable x:TypeArguments="x:String" Name="customFieldLicenseKey" />
+                <Variable x:TypeArguments="x:String" Name="QLEffectiveStartDate" />
+                <Variable x:TypeArguments="x:String" Name="QLEffectiveEndDate" />
+                <Variable x:TypeArguments="x:String" Name="QLInternalCost" />
+              </Sequence.Variables>
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <If sap2010:Annotation.AnnotationText="Requested by CR6 (COE-8936) and changed by CR7 and CR8.&#xA;PDD: https://uipath.atlassian.net/wiki/spaces/INTAUTO/pages/84574175630/Invoicing+pre-paid+items&#xA;&#xA;If SFDC Order field SBQQ__Quote__r.SCOPEQuote__c = true, the Order is considerred a PS Order and a different mapping will be used:&#xA;1. Order Line Amount from SFDC will be mapped to Quantity in NS at SO line level&#xA;2. Rate in NS will be all the time '1'" Condition="[IsPSOrder]" DisplayName="If - PS So, set some variables differently" sap:VirtualizedContainerService.HintSize="400,232" sap2010:WorkflowViewState.IdRef="If_5">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                    <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <If.Then>
+                  <Sequence DisplayName="Sequence - PS SO Specific Variables" sap:VirtualizedContainerService.HintSize="400,80" sap2010:WorkflowViewState.IdRef="Sequence_32">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <If Condition="[sfdcProduct.Item(&quot;SBQQ__QuoteLine__r.Total_Discount__c&quot;).ToString.Contains(&quot;100&quot;)]" DisplayName="If Total Discount % is 100 - set some of the variables differently" sap:VirtualizedContainerService.HintSize="431,25" sap2010:WorkflowViewState.IdRef="If_9">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <If.Then>
+                        <ui:MultipleAssign DisplayName="Multiple Assign - PS SO Specific Variables (100% discount)" sap:VirtualizedContainerService.HintSize="431,132" sap2010:WorkflowViewState.IdRef="MultipleAssign_13">
+                          <ui:MultipleAssign.AssignOperations>
+                            <scg:List x:TypeArguments="ui:AssignOperation" Capacity="32">
+                              <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_67">
+                                <ui:AssignOperation.To>
+                                  <OutArgument x:TypeArguments="x:String">[quantity]</OutArgument>
+                                </ui:AssignOperation.To>
+                                <ui:AssignOperation.Value>
+                                  <InArgument x:TypeArguments="x:String">[sfdcProduct.Item("SBQQ__QuoteLine__r.SBQQ__ListTotal__c").ToString]</InArgument>
+                                </ui:AssignOperation.Value>
+                              </ui:AssignOperation>
+                              <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_68">
+                                <ui:AssignOperation.To>
+                                  <OutArgument x:TypeArguments="x:String">[rate]</OutArgument>
+                                </ui:AssignOperation.To>
+                                <ui:AssignOperation.Value>
+                                  <InArgument x:TypeArguments="x:String">0</InArgument>
+                                </ui:AssignOperation.Value>
+                              </ui:AssignOperation>
+                            </scg:List>
+                          </ui:MultipleAssign.AssignOperations>
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                        </ui:MultipleAssign>
+                      </If.Then>
+                      <If.Else>
+                        <ui:MultipleAssign DisplayName="Multiple Assign - PS SO Specific Variables (less than 100% discount)" sap:VirtualizedContainerService.HintSize="431,132" sap2010:WorkflowViewState.IdRef="MultipleAssign_14">
+                          <ui:MultipleAssign.AssignOperations>
+                            <scg:List x:TypeArguments="ui:AssignOperation" Capacity="32">
+                              <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_69">
+                                <ui:AssignOperation.To>
+                                  <OutArgument x:TypeArguments="x:String">[quantity]</OutArgument>
+                                </ui:AssignOperation.To>
+                                <ui:AssignOperation.Value>
+                                  <InArgument x:TypeArguments="x:String">[sfdcProduct.Item("TotalPrice").ToString]</InArgument>
+                                </ui:AssignOperation.Value>
+                              </ui:AssignOperation>
+                              <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_70">
+                                <ui:AssignOperation.To>
+                                  <OutArgument x:TypeArguments="x:String">[rate]</OutArgument>
+                                </ui:AssignOperation.To>
+                                <ui:AssignOperation.Value>
+                                  <InArgument x:TypeArguments="x:String">1</InArgument>
+                                </ui:AssignOperation.Value>
+                              </ui:AssignOperation>
+                            </scg:List>
+                          </ui:MultipleAssign.AssignOperations>
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                        </ui:MultipleAssign>
+                      </If.Else>
+                    </If>
+                    <ui:MultipleAssign DisplayName="Multiple Assign - PS SO Specific Variables" sap:VirtualizedContainerService.HintSize="431,380" sap2010:WorkflowViewState.IdRef="MultipleAssign_8">
+                      <ui:MultipleAssign.AssignOperations>
+                        <scg:List x:TypeArguments="ui:AssignOperation" Capacity="32">
+                          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_46">
+                            <ui:AssignOperation.To>
+                              <OutArgument x:TypeArguments="x:String">[QLEstStartDate]</OutArgument>
+                            </ui:AssignOperation.To>
+                            <ui:AssignOperation.Value>
+                              <InArgument x:TypeArguments="x:String">[sfdcProduct.Item("SBQQ__QuoteLine__r.Est_Start_Date__c").ToString]</InArgument>
+                            </ui:AssignOperation.Value>
+                          </ui:AssignOperation>
+                          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_47">
+                            <ui:AssignOperation.To>
+                              <OutArgument x:TypeArguments="x:String">[QLEstEndDate]</OutArgument>
+                            </ui:AssignOperation.To>
+                            <ui:AssignOperation.Value>
+                              <InArgument x:TypeArguments="x:String">[sfdcProduct.Item("SBQQ__QuoteLine__r.Est_End_Date__c").ToString]</InArgument>
+                            </ui:AssignOperation.Value>
+                          </ui:AssignOperation>
+                          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_48">
+                            <ui:AssignOperation.To>
+                              <OutArgument x:TypeArguments="x:String">[QLCustomCost]</OutArgument>
+                            </ui:AssignOperation.To>
+                            <ui:AssignOperation.Value>
+                              <InArgument x:TypeArguments="x:String">[sfdcProduct.Item("SBQQ__QuoteLine__r.CustomCost__c").ToString]</InArgument>
+                            </ui:AssignOperation.Value>
+                          </ui:AssignOperation>
+                          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_49">
+                            <ui:AssignOperation.To>
+                              <OutArgument x:TypeArguments="x:String">[QLTotalDiscount]</OutArgument>
+                            </ui:AssignOperation.To>
+                            <ui:AssignOperation.Value>
+                              <InArgument x:TypeArguments="x:String">[sfdcProduct.Item("SBQQ__QuoteLine__r.Total_Discount__c").ToString]</InArgument>
+                            </ui:AssignOperation.Value>
+                          </ui:AssignOperation>
+                          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_50">
+                            <ui:AssignOperation.To>
+                              <OutArgument x:TypeArguments="x:String">[QLCRT]</OutArgument>
+                            </ui:AssignOperation.To>
+                            <ui:AssignOperation.Value>
+                              <InArgument x:TypeArguments="x:String">[sfdcProduct.Item("SBQQ__QuoteLine__r.CRT__c").ToString]</InArgument>
+                            </ui:AssignOperation.Value>
+                          </ui:AssignOperation>
+                          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_51">
+                            <ui:AssignOperation.To>
+                              <OutArgument x:TypeArguments="x:String">[QLSBQQListTotal]</OutArgument>
+                            </ui:AssignOperation.To>
+                            <ui:AssignOperation.Value>
+                              <InArgument x:TypeArguments="x:String">[sfdcProduct.Item("SBQQ__QuoteLine__r.SBQQ__ListTotal__c").ToString]</InArgument>
+                            </ui:AssignOperation.Value>
+                          </ui:AssignOperation>
+                          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_52">
+                            <ui:AssignOperation.To>
+                              <OutArgument x:TypeArguments="x:String">[QLSBQQNetTotal]</OutArgument>
+                            </ui:AssignOperation.To>
+                            <ui:AssignOperation.Value>
+                              <InArgument x:TypeArguments="x:String">[sfdcProduct.Item("SBQQ__QuoteLine__r.SBQQ__NetTotal__c").ToString]</InArgument>
+                            </ui:AssignOperation.Value>
+                          </ui:AssignOperation>
+                          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_71">
+                            <ui:AssignOperation.To>
+                              <OutArgument x:TypeArguments="x:String">[QLEffectiveStartDate]</OutArgument>
+                            </ui:AssignOperation.To>
+                            <ui:AssignOperation.Value>
+                              <InArgument x:TypeArguments="x:String">[sfdcProduct.Item("SBQQ__QuoteLine__r.SBQQ__EffectiveStartDate__c").ToString]</InArgument>
+                            </ui:AssignOperation.Value>
+                          </ui:AssignOperation>
+                          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_72">
+                            <ui:AssignOperation.To>
+                              <OutArgument x:TypeArguments="x:String">[QLEffectiveEndDate]</OutArgument>
+                            </ui:AssignOperation.To>
+                            <ui:AssignOperation.Value>
+                              <InArgument x:TypeArguments="x:String">[sfdcProduct.Item("SBQQ__QuoteLine__r.SBQQ__EffectiveEndDate__c").ToString]</InArgument>
+                            </ui:AssignOperation.Value>
+                          </ui:AssignOperation>
+                          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_77">
+                            <ui:AssignOperation.To>
+                              <OutArgument x:TypeArguments="x:String">[QLInternalCost]</OutArgument>
+                            </ui:AssignOperation.To>
+                            <ui:AssignOperation.Value>
+                              <InArgument x:TypeArguments="x:String">[sfdcProduct.Item("SBQQ__QuoteLine__r.CustomCost__c").ToString]</InArgument>
+                            </ui:AssignOperation.Value>
+                          </ui:AssignOperation>
+                        </scg:List>
+                      </ui:MultipleAssign.AssignOperations>
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </ui:MultipleAssign>
+                  </Sequence>
+                </If.Then>
+                <If.Else>
+                  <ui:MultipleAssign DisplayName="Multiple Assign - Non PS SO Specific Variables" sap:VirtualizedContainerService.HintSize="331,25" sap2010:WorkflowViewState.IdRef="MultipleAssign_9">
+                    <ui:MultipleAssign.AssignOperations>
+                      <scg:List x:TypeArguments="ui:AssignOperation" Capacity="32">
+                        <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_36">
+                          <ui:AssignOperation.To>
+                            <OutArgument x:TypeArguments="x:String">[quantity]</OutArgument>
+                          </ui:AssignOperation.To>
+                          <ui:AssignOperation.Value>
+                            <InArgument x:TypeArguments="x:String">[sfdcProduct.Item("SBQQ__OrderedQuantity__c").ToString]</InArgument>
+                          </ui:AssignOperation.Value>
+                        </ui:AssignOperation>
+                        <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_37">
+                          <ui:AssignOperation.To>
+                            <OutArgument x:TypeArguments="x:String">[rate]</OutArgument>
+                          </ui:AssignOperation.To>
+                          <ui:AssignOperation.Value>
+                            <InArgument x:TypeArguments="x:String">[sfdcProduct.Item("UnitPrice").ToString]</InArgument>
+                          </ui:AssignOperation.Value>
+                        </ui:AssignOperation>
+                        <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_53">
+                          <ui:AssignOperation.To>
+                            <OutArgument x:TypeArguments="x:String">[QLEstStartDate]</OutArgument>
+                          </ui:AssignOperation.To>
+                          <ui:AssignOperation.Value>
+                            <InArgument x:TypeArguments="x:String">[String.Empty]</InArgument>
+                          </ui:AssignOperation.Value>
+                        </ui:AssignOperation>
+                        <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_54">
+                          <ui:AssignOperation.To>
+                            <OutArgument x:TypeArguments="x:String">[QLEstEndDate]</OutArgument>
+                          </ui:AssignOperation.To>
+                          <ui:AssignOperation.Value>
+                            <InArgument x:TypeArguments="x:String">[String.Empty]</InArgument>
+                          </ui:AssignOperation.Value>
+                        </ui:AssignOperation>
+                        <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_55">
+                          <ui:AssignOperation.To>
+                            <OutArgument x:TypeArguments="x:String">[QLCustomCost]</OutArgument>
+                          </ui:AssignOperation.To>
+                          <ui:AssignOperation.Value>
+                            <InArgument x:TypeArguments="x:String">[String.Empty]</InArgument>
+                          </ui:AssignOperation.Value>
+                        </ui:AssignOperation>
+                        <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_56">
+                          <ui:AssignOperation.To>
+                            <OutArgument x:TypeArguments="x:String">[QLTotalDiscount]</OutArgument>
+                          </ui:AssignOperation.To>
+                          <ui:AssignOperation.Value>
+                            <InArgument x:TypeArguments="x:String">[String.Empty]</InArgument>
+                          </ui:AssignOperation.Value>
+                        </ui:AssignOperation>
+                        <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_57">
+                          <ui:AssignOperation.To>
+                            <OutArgument x:TypeArguments="x:String">[QLCRT]</OutArgument>
+                          </ui:AssignOperation.To>
+                          <ui:AssignOperation.Value>
+                            <InArgument x:TypeArguments="x:String">[String.Empty]</InArgument>
+                          </ui:AssignOperation.Value>
+                        </ui:AssignOperation>
+                        <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_58">
+                          <ui:AssignOperation.To>
+                            <OutArgument x:TypeArguments="x:String">[QLSBQQListTotal]</OutArgument>
+                          </ui:AssignOperation.To>
+                          <ui:AssignOperation.Value>
+                            <InArgument x:TypeArguments="x:String">[String.Empty]</InArgument>
+                          </ui:AssignOperation.Value>
+                        </ui:AssignOperation>
+                        <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_59">
+                          <ui:AssignOperation.To>
+                            <OutArgument x:TypeArguments="x:String">[QLSBQQNetTotal]</OutArgument>
+                          </ui:AssignOperation.To>
+                          <ui:AssignOperation.Value>
+                            <InArgument x:TypeArguments="x:String">[String.Empty]</InArgument>
+                          </ui:AssignOperation.Value>
+                        </ui:AssignOperation>
+                        <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_73">
+                          <ui:AssignOperation.To>
+                            <OutArgument x:TypeArguments="x:String">[QLEffectiveStartDate]</OutArgument>
+                          </ui:AssignOperation.To>
+                          <ui:AssignOperation.Value>
+                            <InArgument x:TypeArguments="x:String">[String.Empty]</InArgument>
+                          </ui:AssignOperation.Value>
+                        </ui:AssignOperation>
+                        <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_74">
+                          <ui:AssignOperation.To>
+                            <OutArgument x:TypeArguments="x:String">[QLEffectiveEndDate]</OutArgument>
+                          </ui:AssignOperation.To>
+                          <ui:AssignOperation.Value>
+                            <InArgument x:TypeArguments="x:String">[String.Empty]</InArgument>
+                          </ui:AssignOperation.Value>
+                        </ui:AssignOperation>
+                        <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_78">
+                          <ui:AssignOperation.To>
+                            <OutArgument x:TypeArguments="x:String">[QLInternalCost]</OutArgument>
+                          </ui:AssignOperation.To>
+                          <ui:AssignOperation.Value>
+                            <InArgument x:TypeArguments="x:String">[String.Empty]</InArgument>
+                          </ui:AssignOperation.Value>
+                        </ui:AssignOperation>
+                      </scg:List>
+                    </ui:MultipleAssign.AssignOperations>
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                  </ui:MultipleAssign>
+                </If.Else>
+              </If>
+              <ui:MultipleAssign DisplayName="Multiple Assign - General Product Variables" sap:VirtualizedContainerService.HintSize="400,25" sap2010:WorkflowViewState.IdRef="MultipleAssign_6">
+                <ui:MultipleAssign.AssignOperations>
+                  <scg:List x:TypeArguments="ui:AssignOperation" Capacity="32">
+                    <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_14">
+                      <ui:AssignOperation.To>
+                        <OutArgument x:TypeArguments="x:String">[itemInternalId]</OutArgument>
+                      </ui:AssignOperation.To>
+                      <ui:AssignOperation.Value>
+                        <InArgument x:TypeArguments="x:String">[sfdcProduct.Item("NS_Item_Internal_ID__c").ToString]</InArgument>
+                      </ui:AssignOperation.Value>
+                    </ui:AssignOperation>
+                    <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_15">
+                      <ui:AssignOperation.To>
+                        <OutArgument x:TypeArguments="x:String">[itemName]</OutArgument>
+                      </ui:AssignOperation.To>
+                      <ui:AssignOperation.Value>
+                        <InArgument x:TypeArguments="x:String">[sfdcProduct.Item("Product2.Name").ToString]</InArgument>
+                      </ui:AssignOperation.Value>
+                    </ui:AssignOperation>
+                    <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_16">
+                      <ui:AssignOperation.To>
+                        <OutArgument x:TypeArguments="x:String">[prorateMultiplier]</OutArgument>
+                      </ui:AssignOperation.To>
+                      <ui:AssignOperation.Value>
+                        <InArgument x:TypeArguments="x:String">[sfdcProduct.Item("Prorate_Multiplier_Rounded__c").ToString]</InArgument>
+                      </ui:AssignOperation.Value>
+                    </ui:AssignOperation>
+                    <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_17">
+                      <ui:AssignOperation.To>
+                        <OutArgument x:TypeArguments="x:String">[billingFrequency]</OutArgument>
+                      </ui:AssignOperation.To>
+                      <ui:AssignOperation.Value>
+                        <InArgument x:TypeArguments="x:String">[sfdcProduct.Item("SBQQ__BillingFrequency__c").ToString]</InArgument>
+                      </ui:AssignOperation.Value>
+                    </ui:AssignOperation>
+                    <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_38">
+                      <ui:AssignOperation.To>
+                        <OutArgument x:TypeArguments="x:String">[totalPrice]</OutArgument>
+                      </ui:AssignOperation.To>
+                      <ui:AssignOperation.Value>
+                        <InArgument x:TypeArguments="x:String">[sfdcProduct.Item("TotalPrice").ToString]</InArgument>
+                      </ui:AssignOperation.Value>
+                    </ui:AssignOperation>
+                    <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_20">
+                      <ui:AssignOperation.To>
+                        <OutArgument x:TypeArguments="x:String">[licenseCodes]</OutArgument>
+                      </ui:AssignOperation.To>
+                      <ui:AssignOperation.Value>
+                        <InArgument x:TypeArguments="x:String">[sfdcProduct.Item("License_Codes__c").ToString]</InArgument>
+                      </ui:AssignOperation.Value>
+                    </ui:AssignOperation>
+                    <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_21">
+                      <ui:AssignOperation.To>
+                        <OutArgument x:TypeArguments="x:String">[contractAction]</OutArgument>
+                      </ui:AssignOperation.To>
+                      <ui:AssignOperation.Value>
+                        <InArgument x:TypeArguments="x:String">[sfdcProduct.Item("SBQQ__ContractAction__c").ToString]</InArgument>
+                      </ui:AssignOperation.Value>
+                    </ui:AssignOperation>
+                    <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_23">
+                      <ui:AssignOperation.To>
+                        <OutArgument x:TypeArguments="x:String">[itemId]</OutArgument>
+                      </ui:AssignOperation.To>
+                      <ui:AssignOperation.Value>
+                        <InArgument x:TypeArguments="x:String">[sfdcProduct.Item("Product2Id").ToString]</InArgument>
+                      </ui:AssignOperation.Value>
+                    </ui:AssignOperation>
+                    <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_24">
+                      <ui:AssignOperation.To>
+                        <OutArgument x:TypeArguments="x:String">[itemOrderId]</OutArgument>
+                      </ui:AssignOperation.To>
+                      <ui:AssignOperation.Value>
+                        <InArgument x:TypeArguments="x:String">[sfdcProduct.Item("Id").ToString]</InArgument>
+                      </ui:AssignOperation.Value>
+                    </ui:AssignOperation>
+                    <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_25">
+                      <ui:AssignOperation.To>
+                        <OutArgument x:TypeArguments="x:String">[revisedNSSOID]</OutArgument>
+                      </ui:AssignOperation.To>
+                      <ui:AssignOperation.Value>
+                        <InArgument x:TypeArguments="x:String">[sfdcProduct.Item("Revised_NS_Sales_Order_ID__c").ToString]</InArgument>
+                      </ui:AssignOperation.Value>
+                    </ui:AssignOperation>
+                    <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_26">
+                      <ui:AssignOperation.To>
+                        <OutArgument x:TypeArguments="x:String">[sfdcParentId]</OutArgument>
+                      </ui:AssignOperation.To>
+                      <ui:AssignOperation.Value>
+                        <InArgument x:TypeArguments="x:String">[sfdcProduct.Item("SBQQ__RequiredBy__c").ToString]</InArgument>
+                      </ui:AssignOperation.Value>
+                    </ui:AssignOperation>
+                    <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_27">
+                      <ui:AssignOperation.To>
+                        <OutArgument x:TypeArguments="x:String">[contractId]</OutArgument>
+                      </ui:AssignOperation.To>
+                      <ui:AssignOperation.Value>
+                        <InArgument x:TypeArguments="x:String">[out_SalesOrderModel("ContractRef").ToString]</InArgument>
+                      </ui:AssignOperation.Value>
+                    </ui:AssignOperation>
+                    <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_28">
+                      <ui:AssignOperation.To>
+                        <OutArgument x:TypeArguments="x:String">[revisedSFDCProductId]</OutArgument>
+                      </ui:AssignOperation.To>
+                      <ui:AssignOperation.Value>
+                        <InArgument x:TypeArguments="x:String">[sfdcProduct.Item("SBQQ__RevisedOrderProduct__c").ToString]</InArgument>
+                      </ui:AssignOperation.Value>
+                    </ui:AssignOperation>
+                    <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_29">
+                      <ui:AssignOperation.To>
+                        <OutArgument x:TypeArguments="x:String">[nonSubscription]</OutArgument>
+                      </ui:AssignOperation.To>
+                      <ui:AssignOperation.Value>
+                        <InArgument x:TypeArguments="x:String">[sfdcProduct.Item("Non_Subscription_Product__c").ToString]</InArgument>
+                      </ui:AssignOperation.Value>
+                    </ui:AssignOperation>
+                    <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_30">
+                      <ui:AssignOperation.To>
+                        <OutArgument x:TypeArguments="x:String">[jpRate]</OutArgument>
+                      </ui:AssignOperation.To>
+                      <ui:AssignOperation.Value>
+                        <InArgument x:TypeArguments="x:String">[sfdcProduct.Item("SBQQ__QuoteLine__r.SBQQ__ListPrice__c").ToString]</InArgument>
+                      </ui:AssignOperation.Value>
+                    </ui:AssignOperation>
+                    <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_31">
+                      <ui:AssignOperation.To>
+                        <OutArgument x:TypeArguments="x:String">[totalDiscount]</OutArgument>
+                      </ui:AssignOperation.To>
+                      <ui:AssignOperation.Value>
+                        <InArgument x:TypeArguments="x:String">[if(out_SalesOrderModel("Currency").ToString.ToLower.Equals("jpy"), sfdcProduct.Item("Total_Discount__c").ToString, String.Empty)]</InArgument>
+                      </ui:AssignOperation.Value>
+                    </ui:AssignOperation>
+                    <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_66">
+                      <ui:AssignOperation.To>
+                        <OutArgument x:TypeArguments="x:String">[customFieldLicenseKey]</OutArgument>
+                      </ui:AssignOperation.To>
+                      <ui:AssignOperation.Value>
+                        <InArgument x:TypeArguments="x:String">[sfdcProduct.Item("License_Codes__c").ToString]</InArgument>
+                      </ui:AssignOperation.Value>
+                    </ui:AssignOperation>
+                  </scg:List>
+                </ui:MultipleAssign.AssignOperations>
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+              </ui:MultipleAssign>
+              <Assign DisplayName="Assign - Set If Amendment Or Not" sap:VirtualizedContainerService.HintSize="400,61" sap2010:WorkflowViewState.IdRef="Assign_14">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:Boolean">[out_IsAmendment]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:Boolean">[out_IsAmendment or not String.IsNullOrWhiteSpace(revisedNSSOID)]</InArgument>
+                </Assign.Value>
+              </Assign>
+              <Sequence DisplayName="Process item" sap:VirtualizedContainerService.HintSize="530,887" sap2010:WorkflowViewState.IdRef="Sequence_18">
+                <Sequence.Variables>
+                  <Variable x:TypeArguments="x:String" Name="StartDateConsiderred" />
+                  <Variable x:TypeArguments="x:String" Name="EndDateConsiderred" />
+                </Sequence.Variables>
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ui:LogMessage DisplayName="Log Message - Processing Item" sap:VirtualizedContainerService.HintSize="468,92" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Info" Message="[&quot;Processing item: &quot; + String.Join(&quot;, &quot;, sfdcProduct.ItemArray)]">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </ui:LogMessage>
+                <ui:MultipleAssign DisplayName="Multiple Assign - SO Start/End Date - no difference between PS and non-PS orders" sap:VirtualizedContainerService.HintSize="468,132" sap2010:WorkflowViewState.IdRef="MultipleAssign_15">
+                  <ui:MultipleAssign.AssignOperations>
+                    <scg:List x:TypeArguments="ui:AssignOperation" Capacity="4">
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_75">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="x:String">[StartDateConsiderred]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="x:String">[sfdcProduct.Item("ServiceDate").ToString]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_76">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="x:String">[EndDateConsiderred]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="x:String">[sfdcProduct.Item("EndDate").ToString]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                    </scg:List>
+                  </ui:MultipleAssign.AssignOperations>
+                </ui:MultipleAssign>
+                <TryCatch sap2010:Annotation.AnnotationText="If converting ny of the dates will fail, it means the value received is empty and this is a BRE.&#xA;1. For PS Orders, the dates that need to be filled in are found on fields Est_Start_Date__c and Est_Start_Date__c, on object SBQQ__QuoteLine__r.&#xA;2. For NON-PS Orders, the dates that need to be filled in are found on fields ServiceDate and EndDate on object OrderItem.&#xA;Exception is handled differently in order to send the most accurate exception message to the users by email." DisplayName="Try Catch - Convert Dates" sap:VirtualizedContainerService.HintSize="462,867" sap2010:WorkflowViewState.IdRef="TryCatch_8">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                      <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <TryCatch.Try>
+                    <Sequence DisplayName="Convert Dates" sap:VirtualizedContainerService.HintSize="424,507" sap2010:WorkflowViewState.IdRef="Sequence_31">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke ConvertStringToDateTime workflow - Product StartDate" sap:VirtualizedContainerService.HintSize="362,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" LogEntry="No" LogExit="No" UnSafe="False" WorkflowFileName="Workflows_Misc\ConvertStringToDateTime.xaml">
+                        <ui:InvokeWorkflowFile.Arguments>
+                          <InArgument x:TypeArguments="x:String" x:Key="in_DateString">[StartDateConsiderred]</InArgument>
+                          <OutArgument x:TypeArguments="s:DateTime" x:Key="out_DateTime">[startDate]</OutArgument>
+                          <InArgument x:TypeArguments="s:String[]" x:Key="in_DateFormats">[{ "dd-MM-yyyy", "yyyy-MM-dd" }]</InArgument>
+                        </ui:InvokeWorkflowFile.Arguments>
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </ui:InvokeWorkflowFile>
+                      <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke ConvertStringToDateTime workflow - Product EndDate" sap:VirtualizedContainerService.HintSize="362,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" LogEntry="No" LogExit="No" UnSafe="False" WorkflowFileName="Workflows_Misc\ConvertStringToDateTime.xaml">
+                        <ui:InvokeWorkflowFile.Arguments>
+                          <InArgument x:TypeArguments="x:String" x:Key="in_DateString">[EndDateConsiderred]</InArgument>
+                          <OutArgument x:TypeArguments="s:DateTime" x:Key="out_DateTime">[endDate]</OutArgument>
+                          <InArgument x:TypeArguments="s:String[]" x:Key="in_DateFormats">[{ "dd-MM-yyyy", "yyyy-MM-dd" }]</InArgument>
+                        </ui:InvokeWorkflowFile.Arguments>
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </ui:InvokeWorkflowFile>
+                      <If Condition="[not String.IsNullOrWhiteSpace(QLEstStartDate)]" DisplayName="If QL Est Start Date is not Empty - process it" sap:VirtualizedContainerService.HintSize="484,513" sap2010:WorkflowViewState.IdRef="If_10">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <If.Then>
+                          <Sequence DisplayName="Process QL Est Start Date" sap:VirtualizedContainerService.HintSize="437,325" sap2010:WorkflowViewState.IdRef="Sequence_33">
+                            <Sequence.Variables>
+                              <Variable x:TypeArguments="s:DateTime" Name="QLEstStartDateDate" />
+                            </Sequence.Variables>
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke ConvertStringToDateTime workflow - QLEstStartDate" sap:VirtualizedContainerService.HintSize="375,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_4" LogEntry="No" LogExit="No" UnSafe="False" WorkflowFileName="Workflows_Misc\ConvertStringToDateTime.xaml">
+                              <ui:InvokeWorkflowFile.Arguments>
+                                <InArgument x:TypeArguments="x:String" x:Key="in_DateString">[QLEstStartDate]</InArgument>
+                                <OutArgument x:TypeArguments="s:DateTime" x:Key="out_DateTime">[QLEstStartDateDate]</OutArgument>
+                                <InArgument x:TypeArguments="s:String[]" x:Key="in_DateFormats">[{ "dd-MM-yyyy", "yyyy-MM-dd" }]</InArgument>
+                              </ui:InvokeWorkflowFile.Arguments>
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                            </ui:InvokeWorkflowFile>
+                            <Assign DisplayName="Set the QL Effective Start Date as String (QLEstStartDateDate.ToString(in_APIDateFormat))" sap:VirtualizedContainerService.HintSize="375,61" sap2010:WorkflowViewState.IdRef="Assign_16">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:String">[QLEstStartDate]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:String">[QLEstStartDateDate.ToString(in_APIDateFormat)]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                          </Sequence>
+                        </If.Then>
+                      </If>
+                      <If Condition="[not String.IsNullOrWhiteSpace(QLEstEndDate)]" DisplayName="If QL Est End Date is not Empty - process it" sap:VirtualizedContainerService.HintSize="362,25" sap2010:WorkflowViewState.IdRef="If_11">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <If.Then>
+                          <Sequence DisplayName="Process QL Est End Date" sap:VirtualizedContainerService.HintSize="421,304" sap2010:WorkflowViewState.IdRef="Sequence_35">
+                            <Sequence.Variables>
+                              <Variable x:TypeArguments="s:DateTime" Name="QLEstEndDateDate" />
+                            </Sequence.Variables>
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke ConvertStringToDateTime workflow - QLEstEndDate" sap:VirtualizedContainerService.HintSize="379,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_5" LogEntry="No" LogExit="No" UnSafe="False" WorkflowFileName="Workflows_Misc\ConvertStringToDateTime.xaml">
+                              <ui:InvokeWorkflowFile.Arguments>
+                                <InArgument x:TypeArguments="x:String" x:Key="in_DateString">[QLEstEndDate]</InArgument>
+                                <OutArgument x:TypeArguments="s:DateTime" x:Key="out_DateTime">[QLEstEndDateDate]</OutArgument>
+                                <InArgument x:TypeArguments="s:String[]" x:Key="in_DateFormats">[{ "dd-MM-yyyy", "yyyy-MM-dd" }]</InArgument>
+                              </ui:InvokeWorkflowFile.Arguments>
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                            </ui:InvokeWorkflowFile>
+                            <Assign DisplayName="Set the QL Effective Start Date as String" sap:VirtualizedContainerService.HintSize="379,60" sap2010:WorkflowViewState.IdRef="Assign_17">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:String">[QLEstEndDate]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:String">[QLEstEndDateDate.ToString(in_APIDateFormat)]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                          </Sequence>
+                        </If.Then>
+                      </If>
+                    </Sequence>
+                  </TryCatch.Try>
+                  <TryCatch.Catches>
+                    <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="428,21" sap2010:WorkflowViewState.IdRef="Catch`1_8">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <ActivityAction x:TypeArguments="s:Exception">
+                        <ActivityAction.Argument>
+                          <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                        </ActivityAction.Argument>
+                        <If Condition="[IsPSOrder]" DisplayName="If - Dates Exception for PS or NON-PS Order" sap:VirtualizedContainerService.HintSize="484,219" sap2010:WorkflowViewState.IdRef="If_8">
+                          <If.Then>
+                            <Throw DisplayName="Throw - BRE: Dates On PS Order Item" Exception="[New BusinessRuleException(exception.Message + &quot; Please make sure you have the start and end dates fields (Est_Start_Date__c and Est_Start_Date__c, on object SBQQ__QuoteLine__r) filled in for all products on the SFDC Order.&quot;)]" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Throw_2" />
+                          </If.Then>
+                          <If.Else>
+                            <Throw DisplayName="Throw - BRE: Dates On Non-PS Order Item" Exception="[New BusinessRuleException(exception.Message + &quot; Please make sure you have the start and end dates fields (ServiceDate and EndDate on object OrderItem) filled in for all products on the SFDC Order.&quot;)]" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Throw_3" />
+                          </If.Else>
+                        </If>
+                      </ActivityAction>
+                    </Catch>
+                  </TryCatch.Catches>
+                </TryCatch>
+                <If Condition="[firstProduct]" DisplayName="Set the End Date on the Header Level = max End Date from Products List" sap:VirtualizedContainerService.HintSize="468,25" sap2010:WorkflowViewState.IdRef="If_3">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <If.Then>
+                    <Sequence DisplayName="Set Max End Date On First Product" sap:VirtualizedContainerService.HintSize="400,273" sap2010:WorkflowViewState.IdRef="Sequence_12">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <Assign DisplayName="Assign - Max End Date For First Product" sap:VirtualizedContainerService.HintSize="338,61" sap2010:WorkflowViewState.IdRef="Assign_3">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="s:DateTime">[maxEndDate]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="s:DateTime">[endDate]</InArgument>
+                        </Assign.Value>
+                      </Assign>
+                      <Assign DisplayName="Assign - Mark First Product Processed" sap:VirtualizedContainerService.HintSize="338,61" sap2010:WorkflowViewState.IdRef="Assign_4">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="x:Boolean">[firstProduct]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+                        </Assign.Value>
+                      </Assign>
+                    </Sequence>
+                  </If.Then>
+                  <If.Else>
+                    <If Condition="[endDate &gt; maxEndDate]" DisplayName="If -endDate &gt; maxEndDate" sap:VirtualizedContainerService.HintSize="484,249" sap2010:WorkflowViewState.IdRef="If_2">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <If.Then>
+                        <Assign DisplayName="Assign - Max End Date Fr Other Products" sap:VirtualizedContainerService.HintSize="262,61" sap2010:WorkflowViewState.IdRef="Assign_5">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="s:DateTime">[maxEndDate]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="s:DateTime">[endDate]</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                      </If.Then>
+                    </If>
+                  </If.Else>
+                </If>
+                <TryCatch DisplayName="Try Find Products in NS" sap:VirtualizedContainerService.HintSize="468,25" sap2010:WorkflowViewState.IdRef="TryCatch_6">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <TryCatch.Try>
+                    <Sequence DisplayName="Find Product In NS" sap:VirtualizedContainerService.HintSize="400,201" sap2010:WorkflowViewState.IdRef="Sequence_15">
+                      <Sequence.Variables>
+                        <Variable x:TypeArguments="nn:KitItem" Name="KitItem" />
+                        <Variable x:TypeArguments="x:Boolean" Name="isKitItem" />
+                        <Variable x:TypeArguments="nn:NonInventorySaleItem" Name="Item" />
+                      </Sequence.Variables>
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <n:SearchNonInventorySaleItem ItemDisplayName="{x:Null}" AccountName="[in_Config(&quot;NSAccountName&quot;).ToString]" ConsumerKey="[in_Config(&quot;NSConsumerKey&quot;).ToString]" ConsumerSecret="[in_Config(&quot;NSConsumerSecret&quot;).ToString]" DisplayName="Search non inventory sale item" sap:VirtualizedContainerService.HintSize="338,25" sap2010:WorkflowViewState.IdRef="SearchNonInventorySaleItem_1" IsKitItem="[isKitItem]" IsProduction="[CBool(in_Config(&quot;NS_IsProd&quot;).ToString)]" Item="[Item]" KitItem="[KitItem]" SalesforceProductId="[sfdcProduct.Item(&quot;Product2Id&quot;).ToString]" TokenID="[in_Config(&quot;NSTokenId&quot;).ToString]" TokenSecret="[in_Config(&quot;NSTokenSecret&quot;).ToString]">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </n:SearchNonInventorySaleItem>
+                      <If Condition="[isKitItem]" DisplayName="If - Is Kit Item Or Not" sap:VirtualizedContainerService.HintSize="338,25" sap2010:WorkflowViewState.IdRef="If_4">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <If.Then>
+                          <Sequence DisplayName="Kit Item" sap:VirtualizedContainerService.HintSize="304,252" sap2010:WorkflowViewState.IdRef="Sequence_13">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <Assign DisplayName="Assign NetsuiteName - Kit Item" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_6">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:String">[itemName]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:String">[KitItem.displayName]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                            <Assign DisplayName="Assign - Internal id Kit Item" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_7">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:String">[itemInternalId]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:String">[KitItem.internalId]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                          </Sequence>
+                        </If.Then>
+                        <If.Else>
+                          <Sequence DisplayName="Not Kit Item" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Sequence_14">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <Assign DisplayName="Assign NetsuiteName - Non Kit Item" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_8">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:String">[itemName]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:String">[Item.displayName]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                            <Assign DisplayName="Assign - Internal id Non Kit Item" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_9">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:String">[itemInternalId]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:String">[Item.internalId]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                          </Sequence>
+                        </If.Else>
+                      </If>
+                    </Sequence>
+                  </TryCatch.Try>
+                  <TryCatch.Catches>
+                    <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="404,21" sap2010:WorkflowViewState.IdRef="Catch`1_6">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <ActivityAction x:TypeArguments="s:Exception">
+                        <ActivityAction.Argument>
+                          <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                        </ActivityAction.Argument>
+                        <Assign DisplayName="Assign Not found products" sap:VirtualizedContainerService.HintSize="262,61" sap2010:WorkflowViewState.IdRef="Assign_10">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:String">[out_NotFoundProducts]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:String">[If(out_NotFoundProducts.Length&lt;1, sfdcProduct.Item("Product2.Name").ToString+ ": "+exception.Message, out_NotFoundProducts+","+sfdcProduct.Item("Product2.Name").ToString+": "+exception.Message)]</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                      </ActivityAction>
+                    </Catch>
+                  </TryCatch.Catches>
+                </TryCatch>
+                <ui:AddDataRow DataRow="{x:Null}" ArrayRow="[{itemName, itemInternalId, quantity, rate, totalPrice, String.Empty, String.Empty, totalDiscount, String.Empty,  startDate.ToString(in_APIDateFormat), endDate.ToString(in_APIDateFormat),QLEstStartDate, QLEstEndDate, False, String.Empty, customFieldLicenseKey, String.Empty, prorateMultiplier, String.Empty, String.Empty,contractAction,contractAction, licenseCodes, itemOrderId, itemOrderId,revisedNSSOID, sfdcParentId, contractId,revisedSFDCProductId, nonSubscription, jpRate, QLCustomCost, QLTotalDiscount, QLCRT, QLSBQQListTotal, QLSBQQNetTotal, QLInternalCost, True }]" DataTable="[out_dt_SOProducts]" DisplayName="Add Data Row - To SO Products" sap:VirtualizedContainerService.HintSize="468,25" sap2010:WorkflowViewState.IdRef="AddDataRow_1">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </ui:AddDataRow>
+              </Sequence>
+            </Sequence>
+          </ActivityAction>
+        </ui:ForEachRow.Body>
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </ui:ForEachRow>
+      <Assign DisplayName="Reevaluate IsAmendment flag based on the Order Type from the Order Level" sap:VirtualizedContainerService.HintSize="431,61" sap2010:WorkflowViewState.IdRef="Assign_15">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:Boolean">[out_IsAmendment]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:Boolean">[out_IsAmendment And out_SalesOrderModel("OrderTypeFromOrderLevel").ToString.ToLower.Equals("amendment")]</InArgument>
+        </Assign.Value>
+      </Assign>
+    </Sequence>
+    <maes:AddToDictionary x:TypeArguments="x:String, x:Object" Dictionary="[out_SalesOrderModel]" DisplayName="Add to dictionary - Additional Field" sap:VirtualizedContainerService.HintSize="500,139" sap2010:WorkflowViewState.IdRef="AddToDictionary`2_46" Key="EndDate" Value="[maxEndDate]">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </maes:AddToDictionary>
+  </Sequence>
+</Activity>

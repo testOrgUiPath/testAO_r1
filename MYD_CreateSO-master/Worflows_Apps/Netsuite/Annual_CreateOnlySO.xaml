@@ -1,0 +1,275 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="CreateOnlySO" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:n="clr-namespace:NetsuiteActivities;assembly=NetsuiteActivities" xmlns:nn="clr-namespace:NetsuiteActivities.NetsuiteService;assembly=NetsuiteActivities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="out_SONumber" Type="OutArgument(x:String)" />
+    <x:Property Name="out_SuccessfulCreationSO" Type="OutArgument(x:Boolean)" />
+    <x:Property Name="out_ExceptionDetails" Type="OutArgument(x:String)" />
+    <x:Property Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="in_SalesOrderModel" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="in_SalesRepInternalId" Type="InArgument(x:String)" />
+    <x:Property Name="in_NSRequestBillToTier" Type="InArgument(x:String)" />
+    <x:Property Name="in_Reseller" Type="InArgument(x:String)" />
+    <x:Property Name="in_DealType" Type="InArgument(x:String)" />
+    <x:Property Name="in_BillToTier" Type="InArgument(x:String)" />
+    <x:Property Name="in_EndUserInternalId" Type="InArgument(x:String)" />
+    <x:Property Name="in_EntityInternalId" Type="InArgument(x:String)" />
+    <x:Property Name="in_ResellerInternalId" Type="InArgument(x:String)" />
+    <x:Property Name="in_CustomForm" Type="InArgument(x:String)" />
+    <x:Property Name="in_Location" Type="InArgument(x:String)" />
+    <x:Property Name="in_BillToAddressInternalId" Type="InArgument(x:String)" />
+    <x:Property Name="in_ShipToAddressInternalId" Type="InArgument(x:String)" />
+    <x:Property Name="in_ShippingAddressDictionary" Type="InArgument(scg:Dictionary(x:String, x:String))" />
+    <x:Property Name="in_ShippingAddressUsed" Type="InArgument(x:Boolean)" />
+    <x:Property Name="in_FinanceOwnerInternalId" Type="InArgument(x:String)" />
+    <x:Property Name="in_dt_Products" Type="InArgument(sd:DataTable)" />
+  </x:Members>
+  <sap:VirtualizedContainerService.HintSize>1659,1966</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="40">
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>NetsuiteActivities.NetsuiteService</x:String>
+      <x:String>NetsuiteActivities</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.ComponentModel</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Activities.DynamicUpdate</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Runtime.InteropServices</x:String>
+      <x:String>Microsoft.VisualBasic.CompilerServices</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>NetsuiteActivities</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.CV</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>System.ServiceModel.Activities</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>Microsoft.Bcl.AsyncInterfaces</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>System.Linq.Async</AssemblyReference>
+      <AssemblyReference>UiPath.MicrosoftOffice365.Activities.Design</AssemblyReference>
+      <AssemblyReference>NPOI</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="Create only SO" sap:VirtualizedContainerService.HintSize="911,1901" sap2010:WorkflowViewState.IdRef="Sequence_4">
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:LogMessage DisplayName="Log Message - Start" sap:VirtualizedContainerService.HintSize="849,25" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Annual_CreateOnlySO workflow started...&quot;]">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ui:LogMessage>
+    <If Condition="[in_dt_Products.Rows.Count &gt; 0 AndAlso in_SalesOrderModel(&quot;Currency&quot;).ToString.ToUpper &lt;&gt; &quot;IRN&quot;]" DisplayName="If - Products Exist" sap:VirtualizedContainerService.HintSize="849,1660" sap2010:WorkflowViewState.IdRef="If_1">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <If.Then>
+        <TryCatch DisplayName="Try Catch - Create SO" sap:VirtualizedContainerService.HintSize="813,1472" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <TryCatch.Try>
+            <Sequence DisplayName="Create SO" sap:VirtualizedContainerService.HintSize="775,1244" sap2010:WorkflowViewState.IdRef="Sequence_1">
+              <Sequence.Variables>
+                <Variable x:TypeArguments="nn:RecordRef" Name="record" />
+                <Variable x:TypeArguments="nn:WriteResponse" Name="result" />
+              </Sequence.Variables>
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <If Condition="[in_ShippingAddressUsed AND CBool(in_ShippingAddressDictionary(&quot;isAddressUsed&quot;).ToString)]" DisplayName="If - Check shipping address" sap:VirtualizedContainerService.HintSize="713,292" sap2010:WorkflowViewState.IdRef="If_2">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <If.Then>
+                  <n:addSalesOrderNew AccountName="{x:Null}" BillingAddressAddr1="{x:Null}" BillingAddressAddressee="{x:Null}" BillingAddressAddrtext="{x:Null}" BillingAddressCity="{x:Null}" BillingAddressCountry="{x:Null}" BillingAddressOverride="{x:Null}" BillingAddressState="{x:Null}" BillingAddressZip="{x:Null}" BlockCustomPriceLevel="{x:Null}" ConsumerKey="{x:Null}" ConsumerSecret="{x:Null}" ContractEndDate="{x:Null}" ContractEndDateSpecified="{x:Null}" CreatedBy="{x:Null}" CustomListRateIsAnnualRate="{x:Null}" CustomPriceLevelForMSItems="{x:Null}" EndUserEmailAddress="{x:Null}" FederalFlag="{x:Null}" Iban="{x:Null}" IndiaTaxINScriptId="{x:Null}" IndiaTaxItemScriptId="{x:Null}" IndiaTaxOUTScriptId="{x:Null}" IsDelegated="{x:Null}" IsRejected="{x:Null}" IsSellerImporterOfRecord="{x:Null}" ManualRenewal="{x:Null}" SalesrepName="{x:Null}" ShipToTier="{x:Null}" ShippingAddressAddrtext="{x:Null}" ShippingAddressCountry="{x:Null}" ShippingAddressInternalId="{x:Null}" SubsidiaryInternalid="{x:Null}" SubsidiaryName="{x:Null}" SuperApproverApproved="{x:Null}" TermsInternalid="{x:Null}" TokenId="{x:Null}" TokenSecret="{x:Null}" balance="{x:Null}" canhavestackable="{x:Null}" saveonauthdecline="{x:Null}" shipcomplete="{x:Null}" shipdate="{x:Null}" shipisresidential="{x:Null}" BillToTier="[in_BillToTier]" BillingAddressInternalId="[in_BillToAddressInternalId]" BillingFrequency="[in_SalesOrderModel(&quot;BillingFrequency&quot;).ToString]" ClassInternalid="[in_Config(&quot;ClassID&quot;).ToString]" ClassName="[in_Config(&quot;Class&quot;).ToString]" Compensation="[in_SalesOrderModel(&quot;Compensation&quot;).ToString]" ContractId="[in_SalesOrderModel(&quot;ContractRef&quot;).ToString]" ContractStartDate="[CDate(in_SalesOrderModel(&quot;ContractStartDate&quot;).ToString)]" ContractStartDateSpecified="[CBool(in_SalesOrderModel(&quot;ContractStartDateSpecified&quot;).ToString)]" ContractTerm="0" CurrencyInternalid="[in_Config(&quot;Currency&quot;+in_SalesOrderModel(&quot;Currency&quot;).ToString).ToString]" CurrencyName="[in_SalesOrderModel(&quot;Currency&quot;).ToString]" CustomForm="[in_CustomForm]" DealType="[in_DealType]" DepartmentInternalid="[in_Config(&quot;DepartmentID&quot;).ToString]" DepartmentName="[in_Config(&quot;Department&quot;).ToString]" DisclaimerForAllInvoices="[in_Config(&quot;DisclaimerAllInvoices&quot;).ToString]" DisclaimerForEuSRLSubsidiary="[in_Config(&quot;DisclaimerEUSRL&quot;).ToString]" DisclaimerForNonEuSRLSubsidiary="[in_Config(&quot;DisclaimerNonEUSRL&quot;).ToString]" DisplayName="Add Sales Order NEW - Shipping Address" EndDate="[CDate(in_SalesOrderModel(&quot;ContractEndDate&quot;).ToString)]" EndDateSpecified="[CBool(in_SalesOrderModel(&quot;ContractEndDateSpecified&quot;).ToString)]" EndUserInternalId="[in_EndUserInternalId]" EntityInternalId="[in_EntityInternalId]" ExternalID="[&quot;SO-&quot;+in_SalesOrderModel(&quot;OrderId&quot;).ToString]" FinanceOwnerInternalId="[in_FinanceOwnerInternalId]" FirstAnniversaryDate="[if( String.IsNullOrWhiteSpace(in_SalesOrderModel(&quot;FirstAnniversaryDate&quot;).ToString), DateTime.Today, CDate(in_SalesOrderModel(&quot;FirstAnniversaryDate&quot;).ToString))]" FirstAnniversaryDateSpecified="[CBool(in_SalesOrderModel(&quot;FirstAnniversaryDateSpecified&quot;).ToString)]" HeaderCredentials="[DirectCast(in_Config(&quot;NSHeaderCredentials&quot;), HeaderCredentials)]" sap:VirtualizedContainerService.HintSize="334,133" sap2010:WorkflowViewState.IdRef="addSalesOrderNew_6" IgnoreItemPlaceOfSupply="False" IndiaPlaceOfSupplyRecType="[in_Config(&quot;PlaceOfSupplyRecType&quot;).ToString]" IndiaTaxRecType="[in_Config(&quot;TaxGroupRecType&quot;).ToString]" IsProduction="[CBool(in_Config(&quot;NS_IsProd&quot;).ToString)]" ItemsList="[in_dt_Products]" JPCampaign="[in_SalesOrderModel(&quot;OpportunityJPCampaign&quot;).ToString]" LocationName="[in_Location]" Memo="[in_SalesOrderModel(&quot;FinanceMemo&quot;).ToString]" NonStandardTCComment="[in_SalesOrderModel(&quot;NonStandardTCComment&quot;).ToString]" NonStandardTCFlag="[if(String.IsNullOrWhiteSpace(in_SalesOrderModel(&quot;NonStandardTC&quot;).ToString), False, CBool(in_SalesOrderModel(&quot;NonStandardTC&quot;).ToString))]" NonStandardTCFlagSpecified="[if(String.IsNullOrWhiteSpace(in_SalesOrderModel(&quot;NonStandardTC&quot;).ToString), False, True)]" OrderStartDate="[CDate(in_SalesOrderModel(&quot;StartDate&quot;).ToString)]" OrderStartDateSpecified="[if(String.IsNullOrWhiteSpace(in_SalesOrderModel(&quot;StartDate&quot;).ToString), False, True)]" OrderType="[in_SalesOrderModel(&quot;OrderType&quot;).ToString]" OtherRefNum="[in_SalesOrderModel(&quot;PoNumber&quot;).ToString]" POType="[in_SalesOrderModel(&quot;POType&quot;).ToString]" ReBillFor="[if(String.IsNullOrWhiteSpace(in_SalesOrderModel(&quot;ReBillFor&quot;).ToString), &quot;NA&quot;, in_SalesOrderModel(&quot;ReBillFor&quot;).ToString)]" Record="[record]" Region="[in_SalesOrderModel(&quot;BillToAccountGeo&quot;).ToString.ToUpper.Trim]" RenewalTerms="[cint(in_Config(&quot;RenewalTerms&quot;).ToString)]" ReplacementTransaction="[Convert.ToBoolean(in_SalesOrderModel(&quot;Replacement&quot;))]" ResellerInternalId="[in_ResellerInternalId]" Result="[result]" SFDCOrderType="[in_SalesOrderModel(&quot;SFDCOrderType&quot;).ToString]" SalesforceOpportunityId="[in_SalesOrderModel(&quot;OpportunityId&quot;).ToString]" SalesrepInternalid="[in_SalesRepInternalId]" ScopeQuote="[CBool(in_SalesOrderModel(&quot;PSOrder&quot;).ToString.ToLower)]" ScopeQuoteSpecified="[CBool(in_SalesOrderModel(&quot;PSOrder&quot;).ToString.ToLower)]" ShippingAddressAddr1="[in_ShippingAddressDictionary(&quot;addr1&quot;).ToString]" ShippingAddressAddr2="[in_ShippingAddressDictionary(&quot;addr2&quot;).ToString]" ShippingAddressAddressee="[in_ShippingAddressDictionary(&quot;addressee&quot;).ToString]" ShippingAddressCity="[in_ShippingAddressDictionary(&quot;city&quot;).ToString]" ShippingAddressCountryEnumValue="[in_ShippingAddressDictionary(&quot;countryEnumValue&quot;).ToString]" ShippingAddressOverride="False" ShippingAddressOverrideSpecified="True" ShippingAddressSFDCId="[in_ShippingAddressDictionary(&quot;sfdcId&quot;).ToString]" ShippingAddressSpecified="True" ShippingAddressState="[in_ShippingAddressDictionary(&quot;state&quot;).ToString]" ShippingAddressZip="[in_ShippingAddressDictionary(&quot;zip&quot;).ToString]" SoComment="[in_SalesOrderModel(&quot;FinanceComments&quot;).ToString]" StartDate="[CDate(in_SalesOrderModel(&quot;PostingDate&quot;).ToString)]" StartDateSpecified="True" Status="[in_Config(&quot;SoStatus&quot;).ToString]" TermsName="[in_SalesOrderModel(&quot;PaymentTerms&quot;).ToString]" TransactionDate="[CDate(in_SalesOrderModel(&quot;PostingDate&quot;).ToString)]" TransactionDateSpecified="True" ZeroValueSOFlag="[if(String.IsNullOrWhiteSpace(in_SalesOrderModel(&quot;ZeroValueSO&quot;).ToString), False, CBool(in_SalesOrderModel(&quot;ZeroValueSO&quot;).ToString))]" ZeroValueSOFlagSpecified="[if(String.IsNullOrWhiteSpace(in_SalesOrderModel(&quot;ZeroValueSO&quot;).ToString), False, True)]" />
+                </If.Then>
+                <If.Else>
+                  <n:addSalesOrderNew AccountName="{x:Null}" BillingAddressAddr1="{x:Null}" BillingAddressAddressee="{x:Null}" BillingAddressAddrtext="{x:Null}" BillingAddressCity="{x:Null}" BillingAddressCountry="{x:Null}" BillingAddressOverride="{x:Null}" BillingAddressState="{x:Null}" BillingAddressZip="{x:Null}" BlockCustomPriceLevel="{x:Null}" ConsumerKey="{x:Null}" ConsumerSecret="{x:Null}" ContractEndDate="{x:Null}" ContractEndDateSpecified="{x:Null}" CreatedBy="{x:Null}" CustomListRateIsAnnualRate="{x:Null}" CustomPriceLevelForMSItems="{x:Null}" EndUserEmailAddress="{x:Null}" FederalFlag="{x:Null}" Iban="{x:Null}" IndiaTaxINScriptId="{x:Null}" IndiaTaxItemScriptId="{x:Null}" IndiaTaxOUTScriptId="{x:Null}" IsDelegated="{x:Null}" IsRejected="{x:Null}" IsSellerImporterOfRecord="{x:Null}" ManualRenewal="{x:Null}" SalesrepName="{x:Null}" ShipToTier="{x:Null}" ShippingAddressAddr1="{x:Null}" ShippingAddressAddr2="{x:Null}" ShippingAddressAddressee="{x:Null}" ShippingAddressAddrtext="{x:Null}" ShippingAddressCity="{x:Null}" ShippingAddressCountry="{x:Null}" ShippingAddressCountryEnumValue="{x:Null}" ShippingAddressInternalId="{x:Null}" ShippingAddressOverride="{x:Null}" ShippingAddressOverrideSpecified="{x:Null}" ShippingAddressSFDCId="{x:Null}" ShippingAddressSpecified="{x:Null}" ShippingAddressState="{x:Null}" ShippingAddressZip="{x:Null}" SubsidiaryInternalid="{x:Null}" SubsidiaryName="{x:Null}" SuperApproverApproved="{x:Null}" TermsInternalid="{x:Null}" TokenId="{x:Null}" TokenSecret="{x:Null}" balance="{x:Null}" canhavestackable="{x:Null}" saveonauthdecline="{x:Null}" shipcomplete="{x:Null}" shipdate="{x:Null}" shipisresidential="{x:Null}" BillToTier="[in_BillToTier]" BillingAddressInternalId="[in_BillToAddressInternalId]" BillingFrequency="[in_SalesOrderModel(&quot;BillingFrequency&quot;).ToString]" ClassInternalid="[in_Config(&quot;ClassID&quot;).ToString]" ClassName="[in_Config(&quot;Class&quot;).ToString]" Compensation="[in_SalesOrderModel(&quot;Compensation&quot;).ToString]" ContractId="[in_SalesOrderModel(&quot;ContractRef&quot;).ToString]" ContractStartDate="[CDate(in_SalesOrderModel(&quot;ContractStartDate&quot;).ToString)]" ContractStartDateSpecified="[CBool(in_SalesOrderModel(&quot;ContractStartDateSpecified&quot;).ToString)]" ContractTerm="0" CurrencyInternalid="[in_Config(&quot;Currency&quot;+in_SalesOrderModel(&quot;Currency&quot;).ToString).ToString]" CurrencyName="[in_SalesOrderModel(&quot;Currency&quot;).ToString]" CustomForm="[in_CustomForm]" DealType="[in_DealType]" DepartmentInternalid="[in_Config(&quot;DepartmentID&quot;).ToString]" DepartmentName="[in_Config(&quot;Department&quot;).ToString]" DisclaimerForAllInvoices="[in_Config(&quot;DisclaimerAllInvoices&quot;).ToString]" DisclaimerForEuSRLSubsidiary="[in_Config(&quot;DisclaimerEUSRL&quot;).ToString]" DisclaimerForNonEuSRLSubsidiary="[in_Config(&quot;DisclaimerNonEUSRL&quot;).ToString]" DisplayName="Add Sales Order NEW - No Shipping Address" EndDate="[CDate(in_SalesOrderModel(&quot;ContractEndDate&quot;).ToString)]" EndDateSpecified="[CBool(in_SalesOrderModel(&quot;ContractEndDateSpecified&quot;).ToString)]" EndUserInternalId="[in_EndUserInternalId]" EntityInternalId="[in_EntityInternalId]" ExternalID="[&quot;SO-&quot;+in_SalesOrderModel(&quot;OrderId&quot;).ToString]" FinanceOwnerInternalId="[in_FinanceOwnerInternalId]" FirstAnniversaryDate="[if( String.IsNullOrWhiteSpace(in_SalesOrderModel(&quot;FirstAnniversaryDate&quot;).ToString), DateTime.Today, CDate(in_SalesOrderModel(&quot;FirstAnniversaryDate&quot;).ToString))]" FirstAnniversaryDateSpecified="[if( String.IsNullOrWhiteSpace(in_SalesOrderModel(&quot;FirstAnniversaryDate&quot;).ToString), False, True)]" HeaderCredentials="[DirectCast(in_Config(&quot;NSHeaderCredentials&quot;), HeaderCredentials)]" sap:VirtualizedContainerService.HintSize="334,133" sap2010:WorkflowViewState.IdRef="addSalesOrderNew_7" IgnoreItemPlaceOfSupply="False" IndiaPlaceOfSupplyRecType="[in_Config(&quot;PlaceOfSupplyRecType&quot;).ToString]" IndiaTaxRecType="[in_Config(&quot;TaxGroupRecType&quot;).ToString]" IsProduction="[CBool(in_Config(&quot;NS_IsProd&quot;).ToString)]" ItemsList="[in_dt_Products]" JPCampaign="[in_SalesOrderModel(&quot;OpportunityJPCampaign&quot;).ToString]" LocationName="[in_Location]" Memo="[in_SalesOrderModel(&quot;FinanceMemo&quot;).ToString]" NonStandardTCComment="[in_SalesOrderModel(&quot;NonStandardTCComment&quot;).ToString]" NonStandardTCFlag="[if(String.IsNullOrWhiteSpace(in_SalesOrderModel(&quot;NonStandardTC&quot;).ToString), False, CBool(in_SalesOrderModel(&quot;NonStandardTC&quot;).ToString))]" NonStandardTCFlagSpecified="[if(String.IsNullOrWhiteSpace(in_SalesOrderModel(&quot;NonStandardTC&quot;).ToString), False, True)]" OrderStartDate="[CDate(in_SalesOrderModel(&quot;StartDate&quot;).ToString)]" OrderStartDateSpecified="[if(String.IsNullOrWhiteSpace(in_SalesOrderModel(&quot;StartDate&quot;).ToString), False, True)]" OrderType="[in_SalesOrderModel(&quot;OrderType&quot;).ToString]" OtherRefNum="[in_SalesOrderModel(&quot;PoNumber&quot;).ToString]" POType="[in_SalesOrderModel(&quot;POType&quot;).ToString]" ReBillFor="[if(String.IsNullOrWhiteSpace(in_SalesOrderModel(&quot;ReBillFor&quot;).ToString), &quot;NA&quot;, in_SalesOrderModel(&quot;ReBillFor&quot;).ToString)]" Record="[record]" Region="[in_SalesOrderModel(&quot;BillToAccountGeo&quot;).ToString.ToUpper.Trim]" RenewalTerms="[cint(in_Config(&quot;RenewalTerms&quot;).ToString)]" ReplacementTransaction="[Convert.ToBoolean(in_SalesOrderModel(&quot;Replacement&quot;))]" ResellerInternalId="[in_ResellerInternalId]" Result="[result]" SFDCOrderType="[in_SalesOrderModel(&quot;SFDCOrderType&quot;).ToString]" SalesforceOpportunityId="[in_SalesOrderModel(&quot;OpportunityId&quot;).ToString]" SalesrepInternalid="[in_SalesRepInternalId]" ScopeQuote="[CBool(in_SalesOrderModel(&quot;PSOrder&quot;).ToString.ToLower)]" ScopeQuoteSpecified="[CBool(in_SalesOrderModel(&quot;PSOrder&quot;).ToString.ToLower)]" SoComment="[in_SalesOrderModel(&quot;FinanceComments&quot;).ToString]" StartDate="[CDate(in_SalesOrderModel(&quot;PostingDate&quot;).ToString)]" StartDateSpecified="True" Status="[in_Config(&quot;SoStatus&quot;).ToString]" TermsName="[in_SalesOrderModel(&quot;PaymentTerms&quot;).ToString]" TransactionDate="[CDate(in_SalesOrderModel(&quot;PostingDate&quot;).ToString)]" TransactionDateSpecified="True" ZeroValueSOFlag="[if(String.IsNullOrWhiteSpace(in_SalesOrderModel(&quot;ZeroValueSO&quot;).ToString), False, CBool(in_SalesOrderModel(&quot;ZeroValueSO&quot;).ToString))]" ZeroValueSOFlagSpecified="[if(String.IsNullOrWhiteSpace(in_SalesOrderModel(&quot;ZeroValueSO&quot;).ToString), False, True)]" />
+                </If.Else>
+              </If>
+              <If Condition="[not String.IsNullOrEmpty(in_SalesOrderModel(&quot;NonStandardTCComment&quot;).ToString)]" DisplayName="If TC Comment Needs To Be Added" sap:VirtualizedContainerService.HintSize="713,301" sap2010:WorkflowViewState.IdRef="If_4">
+                <If.Then>
+                  <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke NS_UpdateTCComment workflow" sap:VirtualizedContainerService.HintSize="379,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="Worflows_Apps\Netsuite\NS_UpdateTCComment.xaml">
+                    <ui:InvokeWorkflowFile.Arguments>
+                      <InArgument x:TypeArguments="x:String" x:Key="in_salesOrderExternalId">
+                        <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="&quot;SO-&quot;+in_SalesOrderModel(&quot;OrderId&quot;).ToString" />
+                      </InArgument>
+                      <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">
+                        <mva:VisualBasicValue x:TypeArguments="scg:Dictionary(x:String, x:Object)" ExpressionText="in_Config" />
+                      </InArgument>
+                      <InArgument x:TypeArguments="x:String" x:Key="in_tcComment">
+                        <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_SalesOrderModel(&quot;NonStandardTCComment&quot;).ToString" />
+                      </InArgument>
+                    </ui:InvokeWorkflowFile.Arguments>
+                  </ui:InvokeWorkflowFile>
+                </If.Then>
+              </If>
+              <n:updateSOItemsEstimatedCost AccountName="{x:Null}" ConsumerKey="{x:Null}" ConsumerSecret="{x:Null}" OperationDetails="{x:Null}" SOUpdatedSuccessfully="{x:Null}" TokenID="{x:Null}" TokenSecret="{x:Null}" UpdatedSO="{x:Null}" DisplayName="Update SO items estimated cost" HeaderCredentials="[DirectCast(in_Config(&quot;NSHeaderCredentials&quot;), HeaderCredentials)]" sap:VirtualizedContainerService.HintSize="713,25" sap2010:WorkflowViewState.IdRef="updateSOItemsEstimatedCost_1" IsProduction="[CBool(in_Config(&quot;NS_IsProd&quot;).ToString)]" ItemsList="[in_dt_Products]" SOInternalId="[record.internalId]" />
+              <Assign DisplayName="Assign - out_SONumber" sap:VirtualizedContainerService.HintSize="713,61" sap2010:WorkflowViewState.IdRef="Assign_1">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:String">[out_SONumber]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:String">[record.internalId]</InArgument>
+                </Assign.Value>
+              </Assign>
+              <Assign DisplayName="Assign - out_SuccessfulCreationSO True" sap:VirtualizedContainerService.HintSize="713,61" sap2010:WorkflowViewState.IdRef="Assign_2">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:Boolean">[out_SuccessfulCreationSO]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                </Assign.Value>
+              </Assign>
+              <Assign DisplayName="Assign - out_ExceptionDetails Empty" sap:VirtualizedContainerService.HintSize="713,61" sap2010:WorkflowViewState.IdRef="Assign_6">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:String">[out_ExceptionDetails]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:String">
+                    <Literal x:TypeArguments="x:String" Value="" />
+                  </InArgument>
+                </Assign.Value>
+              </Assign>
+              <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="713,92" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;Succesfully created SO number: &quot; + out_SONumber +&quot;.&quot;]" />
+            </Sequence>
+          </TryCatch.Try>
+          <TryCatch.Catches>
+            <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="404,21" sap2010:WorkflowViewState.IdRef="Catch`1_1">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ActivityAction x:TypeArguments="s:Exception">
+                <ActivityAction.Argument>
+                  <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                </ActivityAction.Argument>
+                <Sequence DisplayName="Create SO Exception" sap:VirtualizedContainerService.HintSize="400,374" sap2010:WorkflowViewState.IdRef="Sequence_2">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <Assign DisplayName="Assign - out_SONumber Empty" sap:VirtualizedContainerService.HintSize="338,61" sap2010:WorkflowViewState.IdRef="Assign_3">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:String">[out_SONumber]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:String">
+                        <Literal x:TypeArguments="x:String" Value="" />
+                      </InArgument>
+                    </Assign.Value>
+                  </Assign>
+                  <Assign DisplayName="Assign - out_SuccessfulCreationSO False" sap:VirtualizedContainerService.HintSize="338,61" sap2010:WorkflowViewState.IdRef="Assign_4">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:Boolean">[out_SuccessfulCreationSO]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                  <Assign DisplayName="Assign - out_ExceptionDetails" sap:VirtualizedContainerService.HintSize="338,61" sap2010:WorkflowViewState.IdRef="Assign_5">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:String">[out_ExceptionDetails]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:String">[exception.Message]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                </Sequence>
+              </ActivityAction>
+            </Catch>
+          </TryCatch.Catches>
+        </TryCatch>
+      </If.Then>
+    </If>
+    <If Condition="[Not(String.IsNullOrWhiteSpace(out_SONumber))]" DisplayName="If - SO Internal ID, Add Booking Exceptions" sap:VirtualizedContainerService.HintSize="484,25" sap2010:WorkflowViewState.IdRef="If_3">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <If.Then>
+        <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke NS_AddBookingException workflow (Annual_CreateOnlySO)" sap:VirtualizedContainerService.HintSize="379,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Worflows_Apps\Netsuite\NS_AddBookingException.xaml">
+          <ui:InvokeWorkflowFile.Arguments>
+            <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_SalesOrderModel">[in_SalesOrderModel]</InArgument>
+            <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_SalesOrderID">[out_SONumber]</InArgument>
+          </ui:InvokeWorkflowFile.Arguments>
+        </ui:InvokeWorkflowFile>
+      </If.Then>
+      <If.Else>
+        <Sequence sap2010:WorkflowViewState.IdRef="Sequence_6">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+        </Sequence>
+      </If.Else>
+    </If>
+  </Sequence>
+</Activity>

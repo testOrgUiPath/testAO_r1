@@ -1,0 +1,147 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="NS_UpdateTCComment" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:n="clr-namespace:NetsuiteActivities;assembly=NetsuiteActivities" xmlns:nn="clr-namespace:NetsuiteActivities.NetsuiteService;assembly=NetsuiteActivities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_salesOrderExternalId" Type="InArgument(x:String)" />
+    <x:Property Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="in_tcComment" Type="InArgument(x:String)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>1147,1455</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>NS_UpdateTCComment_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="28">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>NetsuiteActivities</x:String>
+      <x:String>NetsuiteActivities.NetsuiteService</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Runtime.InteropServices</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Activities.DynamicUpdate</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="44">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>NetsuiteActivities</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>Microsoft.Bcl.AsyncInterfaces</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>UiPath.MicrosoftOffice365.Activities.Design</AssemblyReference>
+      <AssemblyReference>NPOI</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence sap2010:Annotation.AnnotationText="This workflow was created because the non-standard tc comment field ('custbody_rsm_ns_tc_reason') is not instantiated at the creation of the SO so no value can be assigned to it. &#xA;In order to give it a value, the SO needs to be updated after creation, when the field can accept an input." DisplayName="NS_UpdateTCComment" sap:VirtualizedContainerService.HintSize="641,1390" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:Boolean" Name="searchIsSuccess" />
+      <Variable x:TypeArguments="scg:List(nn:SalesOrder)" Name="soList" />
+      <Variable x:TypeArguments="nn:StringCustomFieldRef" Name="stringCustomFieldRef" />
+      <Variable x:TypeArguments="x:String" Name="operationDetails" />
+      <Variable x:TypeArguments="x:Boolean" Name="updateIsSuccess" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:LogMessage DisplayName="Log Message Search Sales Order" sap:VirtualizedContainerService.HintSize="579,92" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Searching for created Sales Order: &quot; + in_salesOrderExternalId]" />
+    <n:searchSalesOrder AccountName="{x:Null}" ArmCutoverTransaction="{x:Null}" ArmCutoverTransactionSpecified="{x:Null}" ArmDocumentNumberEmptySpecified="{x:Null}" ConsumerKey="{x:Null}" ConsumerSecret="{x:Null}" EndDate_SODate="{x:Null}" HasInvoice="{x:Null}" HasInvoiceSpecified="{x:Null}" IncludeZeroFlagSO="{x:Null}" IncludeZeroFlagSOSpecified="{x:Null}" IsCriteriaUsed_SODate="{x:Null}" IsCriteriaUsed_SONumber="{x:Null}" SOBillingFrequencyArray="{x:Null}" SOBillingFrequencySpecified="{x:Null}" SOCreatedDateSpecified="{x:Null}" SOCreatedDate_EndDate="{x:Null}" SOCreatedDate_StartDate="{x:Null}" SONextInvoiceDateSpecified="{x:Null}" SONextInvoiceDate_EndDate="{x:Null}" SONextInvoiceDate_StartDate="{x:Null}" SOSFDCOrderFieldOperator="{x:Null}" SOSFDCOrderSpecified="{x:Null}" SOStatusArray="{x:Null}" SOStatusSpecified="{x:Null}" SOSubsidiaryArray="{x:Null}" SOSubsidiaryOperator="{x:Null}" SOSubsidiarySpecified="{x:Null}" SalesOrderNumber="{x:Null}" ScopeQuote="{x:Null}" ScopeQuoteSpecified="{x:Null}" StartDate_SODate="{x:Null}" TokenID="{x:Null}" TokenSecret="{x:Null}" DisplayName="Search sales order" ExternalId="[in_salesOrderExternalId]" ExternalIdSpecified="True" HeaderCredentials="[DirectCast(in_Config(&quot;NSHeaderCredentials&quot;), HeaderCredentials)]" sap:VirtualizedContainerService.HintSize="579,25" sap2010:WorkflowViewState.IdRef="searchSalesOrder_1" IsProduction="[CBool(in_Config(&quot;NS_IsProd&quot;).ToString)]" IsSearchSuccessful="[searchIsSuccess]" SalesOrderList="[soList]" />
+    <If Condition="[not searchIsSuccess]" DisplayName="If Search Unsuccessful" sap:VirtualizedContainerService.HintSize="579,248" sap2010:WorkflowViewState.IdRef="If_1">
+      <If.Then>
+        <Throw DisplayName="Throw -  Search for SO in NS Failed" Exception="[New System.Exception(&quot;Search for NS SO corresponding to SFDC order with id &quot; + in_salesOrderExternalId + &quot;failed.&quot;)]" sap:VirtualizedContainerService.HintSize="200,25" sap2010:WorkflowViewState.IdRef="Throw_1" />
+      </If.Then>
+    </If>
+    <ui:MultipleAssign DisplayName="Multiple Assign Comment" sap:VirtualizedContainerService.HintSize="579,194" sap2010:WorkflowViewState.IdRef="MultipleAssign_1">
+      <ui:MultipleAssign.AssignOperations>
+        <scg:List x:TypeArguments="ui:AssignOperation" Capacity="8">
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_1">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="nn:StringCustomFieldRef">[stringCustomFieldRef]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="nn:StringCustomFieldRef">[new StringCustomFieldRef]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_2">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="x:String">[stringCustomFieldRef.scriptId]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="x:String">custbody_rsm_ns_tc_reason</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_3">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="x:String">[stringCustomFieldRef.value]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="x:String">[in_tcComment]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_4">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="nn:CustomFieldRef[]">[soList.First.customFieldList]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="nn:CustomFieldRef[]">[NetsuiteActivities.HelperFunctions.CollectionHelper.AddToArray(soList.First.customFieldList, stringCustomFieldRef)]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+        </scg:List>
+      </ui:MultipleAssign.AssignOperations>
+    </ui:MultipleAssign>
+    <ui:LogMessage DisplayName="Log Message Updating SO" sap:VirtualizedContainerService.HintSize="579,92" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;Updating TC Comment for Sales Order: &quot; + in_salesOrderExternalId]" />
+    <n:updateSalesOrderWithObject AccountName="{x:Null}" ConsumerKey="{x:Null}" ConsumerSecret="{x:Null}" TokenID="{x:Null}" TokenSecret="{x:Null}" DisplayName="Update sales order with object" HeaderCredentials="[DirectCast(in_Config(&quot;NSHeaderCredentials&quot;), HeaderCredentials)]" sap:VirtualizedContainerService.HintSize="579,80" sap2010:WorkflowViewState.IdRef="updateSalesOrderWithObject_1" IsProduction="[CBool(in_Config(&quot;NS_IsProd&quot;).ToString)]" OperationDetails="[operationDetails]" SalesOrder="[soList.First]" SalesOrderUpdatedSuccessfully="[updateIsSuccess]" />
+    <If Condition="[not updateIsSuccess]" DisplayName="If Update Unsuccessful" sap:VirtualizedContainerService.HintSize="579,251" sap2010:WorkflowViewState.IdRef="If_2">
+      <If.Then>
+        <Throw DisplayName="Throw -  Update SO in NS Failed" Exception="[New System.Exception(&quot;Updating the NS SO corresponding to SFDC order with id &quot; + in_salesOrderExternalId + &quot;failed: &quot; + operationDetails)]" sap:VirtualizedContainerService.HintSize="200,25" sap2010:WorkflowViewState.IdRef="Throw_2" />
+      </If.Then>
+      <If.Else>
+        <ui:LogMessage DisplayName="Log Message Comment Added" sap:VirtualizedContainerService.HintSize="334,92" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info" Message="[&quot;TC Comment updated successfully for Sales Order: &quot; + in_salesOrderExternalId +&quot;: &quot; + operationDetails]" />
+      </If.Else>
+    </If>
+  </Sequence>
+</Activity>
